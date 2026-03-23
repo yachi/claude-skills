@@ -1,12 +1,20 @@
 {
   "name": "claude-skills",
   "description": "Production-grade Claude Code skills — deep research, task spawning, and more.",
-  "version": "1.0.0",
-  "skills": [
+  "owner": {
+    "name": "yachi",
+    "url": "https://github.com/yachi"
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "plugins": [
     {
       "name": "deep-research",
-      "path": "skills/deep-research",
-      "description": "Deep Research (/deep-research or /dr) — exhaustive, evidence-based investigation of any topic. ICD 203 (9/9), GRADE, NIST. 89 runs, 85+ domains, 24.3/25 judge score."
+      "source": "./",
+      "description": "Deep Research (/deep-research or /dr) — exhaustive, evidence-based investigation of any topic. ICD 203 (9/9), GRADE, NIST. 89 runs, 85+ domains, 24.3/25 judge score.",
+      "category": "research",
+      "tags": ["research", "deep-research", "evidence-based", "analysis"]
     }
   ]
 }
