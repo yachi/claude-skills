@@ -1,6 +1,6 @@
 # Contributing to claude-skills
 
-Thanks for your interest in contributing! This project is a monorepo of production-grade skills for [Claude Code](https://claude.ai).
+Thanks for your interest in contributing! This project is a monorepo of production-grade skills for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ## Adding a New Skill
 
