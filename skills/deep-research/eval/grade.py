@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Grade /dr skill outputs — 20 binary evals across 5 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
+"""Grade /dr skill outputs — 23 binary evals across 6 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
 
 import re, sys, subprocess, random
 
@@ -88,10 +88,10 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     else:
         r['E16_sources_organized'] = False
 
-    # ═══ TIER 4: Ground Truth (requires network, opt-in with --verify-urls) ═══
+    # ═══ TIER 4: Ground Truth ═══
 
+    # E17: Sample 5 URLs, check they return HTTP 200 (requires network, opt-in with --verify-urls)
     if verify_urls and urls:
-        # E17: Sample 5 URLs, check they return HTTP 200
         sample = random.sample(urls, min(5, len(urls)))
         live_count = 0
         dead_urls = []
@@ -111,21 +111,20 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r['E17_urls_resolve'] = live_count >= 4  # 4/5 must resolve
         if dead_urls:
             print(f'  E17 dead URLs: {dead_urls}')
-
-        # E18: No duplicate content across sections (detect copy-paste)
-        sections = re.split(r'\n## ', content)
-        seen_paragraphs = set()
-        duplicates = 0
-        for section in sections:
-            paragraphs = [p.strip() for p in section.split('\n\n') if len(p.strip()) > 100]
-            for p in paragraphs:
-                if p in seen_paragraphs:
-                    duplicates += 1
-                seen_paragraphs.add(p)
-        r['E18_no_duplicates'] = duplicates == 0
     else:
         r['E17_urls_resolve'] = None  # skipped
-        r['E18_no_duplicates'] = None  # skipped
+
+    # E18: No duplicate content across sections (detect copy-paste)
+    sections = re.split(r'\n## ', content)
+    seen_paragraphs = set()
+    duplicates = 0
+    for section in sections:
+        paragraphs = [p.strip() for p in section.split('\n\n') if len(p.strip()) > 100]
+        for p in paragraphs:
+            if p in seen_paragraphs:
+                duplicates += 1
+            seen_paragraphs.add(p)
+    r['E18_no_duplicates'] = duplicates == 0
 
     # ═══ TIER 5: Industrial Standards (GRADE, CRAAP, ICD 203, NIST) ═══
 
@@ -160,7 +159,6 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n##|\Z)', content)
     if exec_summary:
         summary_text = exec_summary.group(1).strip()
-        sentences = re.split(r'[.!?]+', summary_text)[:4]
         has_answer = len(summary_text) > 50  # not trivially short
         has_conf = bool(re.search(r'\d+%', summary_text))
         r['E19_exec_summary_complete'] = has_answer and has_conf
@@ -185,12 +183,12 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
 
     print(f'\n{"─"*50}')
     for tier_name, prefix_list in [
-        ('TIER 0 (structural)', ('E1','E2','E3','E4','E5','E6','E7','E8')),
-        ('TIER 1 (verifiable)', ('E9','E10','E11')),
-        ('TIER 2 (quality)',    ('E12','E13','E14')),
-        ('TIER 3 (rigor)',      ('E15','E16')),
-        ('TIER 4 (ground truth)', ('E17','E18','E19','E20')),
-        ('TIER 5 (industrial)', ('E21','E22','E23')),
+        ('TIER 0 (structural)', ('E1_','E2_','E3_','E4_','E5_','E6_','E7_','E8_')),
+        ('TIER 1 (verifiable)', ('E9_','E10_','E11_')),
+        ('TIER 2 (quality)',    ('E12_','E13_','E14_')),
+        ('TIER 3 (rigor)',      ('E15_','E16_')),
+        ('TIER 4 (ground truth)', ('E17_','E18_','E19_','E20_')),
+        ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}
         if not tier_evals:

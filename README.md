@@ -27,12 +27,12 @@ Industrial-grade research skill. Every claim survives cross-examination by domai
 
 **9 phases:** Clarify → Decompose → Multi-Source Investigation → Industry Standards Audit → Quantitative Analysis → Adversarial Review → Practitioner Check → Verify → Synthesis
 
-**Standards:** ICD 203 (9/9), GRADE, NIST IQ, CRAAP, ISO 20252, PRISMA
+**Standards:** ICD 203 (9/9), GRADE, NIST reproducibility, CRAAP
 
 **Auto-research validated:**
 - 89 runs across 85+ domains (tech, finance, medical, legal, industrial, adversarial)
 - 23 regex evals + LLM-as-judge (fact-checks 3 claims per output)
-- Judge mean: 24.3/25, fact-check accuracy: 29/29
+- Judge mean: 24.3/25, fact-check accuracy: 26/27
 - Self-improving loop (Karpathy-inspired): `evolve-v2.md`
 
 **Includes:**
