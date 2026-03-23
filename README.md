@@ -12,10 +12,10 @@ Production-grade Claude Code skills, auto-research validated.
 
 ```bash
 # As a Claude Code plugin (all skills)
-/plugin install deep-research@YOUR_USERNAME/claude-skills
+/plugin install deep-research@yachi/claude-skills
 
 # Or install manually
-git clone https://github.com/YOUR_USERNAME/claude-skills.git
+git clone https://github.com/yachi/claude-skills.git
 cp -r claude-skills/skills/deep-research ~/.claude/commands/deep-research
 # For short alias:
 ln -s ~/.claude/commands/deep-research ~/.claude/commands/dr
