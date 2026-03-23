@@ -1,0 +1,53 @@
+{
+  "eval_id": 0,
+  "eval_name": "sqlite-vs-postgres-saas",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section lists 17 unique URLs including dev.to, medium.com, sqlite.org/wal.html, sqlite.org/whentouse.html, sqlite.org/limits.html, aws.amazon.com, thenile.dev, turso.tech, pgbouncer.org, oneuptime.com, percona.com, litestream.io, bytebase.com, tigerdata.com, fly.io, markaicode.com. Exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (numbers, benchmarks, statistics)",
+      "passed": true,
+      "evidence": "Quantitative data points include: (1) 10MB RAM per PostgreSQL connection, (2) 500 concurrent users mapped to 30-40 actual DB connections with PgBouncer, (3) 10-second busy timeouts for 500x write concurrency in SQLite, (4) Turso $29/month Scaler plan with 10,000 databases, (5) managed PostgreSQL $15-50/month. Meets the threshold of 3."
+    },
+    {
+      "text": "References at least 1 specific industry standard by name and section",
+      "passed": false,
+      "evidence": "No specific industry standard is referenced by name and section number. The output mentions general concepts like 'Row-Level Security' and 'tenant isolation' but does not cite OWASP, NIST, SOC 2, GDPR, PCI-DSS, or any other standard by name and section."
+    },
+    {
+      "text": "Contains a structured comparison table or matrix",
+      "passed": true,
+      "evidence": "Contains a 'Feature Comparison for SaaS Applications' table with 14 rows comparing PostgreSQL vs SQLite across features like concurrent read/write, RLS, full-text search, JSON support, stored procedures, partitioning, extensions, etc. Also contains a metrics table at the end."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "The metrics table at the end states 'Confidence: High -- well-established engineering consensus backed by benchmarks'. Uses calibrated language (High) rather than a percentage."
+    },
+    {
+      "text": "Addresses at least 1 counterargument or dissenting view",
+      "passed": true,
+      "evidence": "Section 7 'When SQLite *Would* Be the Right Choice' addresses scenarios where SQLite is appropriate (edge/embedded, database-per-tenant with low concurrency, read-heavy workloads, prototyping). This serves as a counterargument to the PostgreSQL recommendation by acknowledging SQLite's valid use cases."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation",
+      "passed": true,
+      "evidence": "Final Recommendation section provides 5 specific action items: (1) shared schema with RLS using tenant_id, (2) deploy PgBouncer from day one, (3) start with managed service at $15-50/month, (4) enable automated daily backups and PITR, (5) set up pg_stat_statements early."
+    },
+    {
+      "text": "Shows methodology (search queries, code, or reasoning chain)",
+      "passed": false,
+      "evidence": "No explicit methodology section. The output does not show search queries, a research decomposition, or a formal reasoning chain. It presents findings directly without documenting how they were gathered. The analysis flows logically but lacks an explicit methodology disclosure."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  }
+}

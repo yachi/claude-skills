@@ -1,0 +1,150 @@
+{
+  "metadata": {
+    "skill_name": "dr",
+    "skill_path": "skill/SKILL.md",
+    "executor_model": "claude-opus-4-6",
+    "analyzer_model": "claude-opus-4-6",
+    "timestamp": "2026-03-21T00:40:00Z",
+    "evals_run": ["sqlite-vs-postgres", "gdpr-expansion", "jwt-healthcare", "rust-vs-zig-trading", "scada-iot-replacement"],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "eval_name": "sqlite-vs-postgres-saas",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "total_tokens": 49014,
+      "duration_seconds": 448.1
+    },
+    {
+      "eval_id": 0,
+      "eval_name": "sqlite-vs-postgres-saas",
+      "configuration": "without_skill",
+      "pass_rate": 0.75,
+      "passed": 6,
+      "failed": 2,
+      "total": 8,
+      "total_tokens": 24196,
+      "duration_seconds": 189.2
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "gdpr-us-eu-expansion",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "total_tokens": 52214,
+      "duration_seconds": 431.6
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "gdpr-us-eu-expansion",
+      "configuration": "without_skill",
+      "pass_rate": 0.75,
+      "passed": 6,
+      "failed": 2,
+      "total": 8,
+      "total_tokens": 29218,
+      "duration_seconds": 250.0
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "jwt-localstorage-hipaa-phi",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "total_tokens": 46010,
+      "duration_seconds": 409.8
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "jwt-localstorage-hipaa-phi",
+      "configuration": "without_skill",
+      "pass_rate": 0.875,
+      "passed": 7,
+      "failed": 1,
+      "total": 8,
+      "total_tokens": 24420,
+      "duration_seconds": 191.8
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "rust-vs-zig-latency-trading",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "total_tokens": 56313,
+      "duration_seconds": 424.9
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "rust-vs-zig-latency-trading",
+      "configuration": "without_skill",
+      "pass_rate": 0.875,
+      "passed": 7,
+      "failed": 1,
+      "total": 8,
+      "total_tokens": 34113,
+      "duration_seconds": 288.8
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "scada-to-iot-chemical-plant",
+      "configuration": "with_skill",
+      "pass_rate": 1.0,
+      "passed": 8,
+      "failed": 0,
+      "total": 8,
+      "total_tokens": 57866,
+      "duration_seconds": 504.2
+    },
+    {
+      "eval_id": 4,
+      "eval_name": "scada-to-iot-chemical-plant",
+      "configuration": "without_skill",
+      "pass_rate": 0.75,
+      "passed": 6,
+      "failed": 2,
+      "total": 8,
+      "total_tokens": 31782,
+      "duration_seconds": 257.5
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "mean_pass_rate": 1.0,
+      "stddev_pass_rate": 0.0,
+      "mean_tokens": 52283,
+      "mean_duration_seconds": 443.7
+    },
+    "without_skill": {
+      "mean_pass_rate": 0.8,
+      "stddev_pass_rate": 0.063,
+      "mean_tokens": 28746,
+      "mean_duration_seconds": 235.5
+    },
+    "delta": {
+      "pass_rate": "+0.20",
+      "time_seconds": "+208.2",
+      "tokens": "+23537"
+    }
+  },
+  "notes": [
+    "With-skill achieved 100% pass rate across all 5 evals (40/40 assertions)",
+    "Without-skill averaged 80% (32/40 assertions passed)",
+    "Consistently failing without-skill assertions: methodology transparency, explicit confidence levels, standards by section number",
+    "Token cost: with-skill uses 1.8x more tokens on average",
+    "Time cost: with-skill takes 1.9x longer on average",
+    "Hardest evals (Rust/Zig, SCADA) showed largest absolute token increase but similar pass rate delta"
+  ]
+}

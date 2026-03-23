@@ -1,0 +1,53 @@
+{
+  "eval_id": 2,
+  "eval_name": "jwt-localstorage-hipaa-phi",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section lists 13 unique URLs: cheatsheetseries.owasp.org (Session Management Cheat Sheet), github.com/OWASP/ASVS, cheatsheetseries.owasp.org (JWT Cheat Sheet), hhs.gov, federalregister.gov, cobalt.io, paubox.com, censinet.com, duendesoftware.com, auth0.com, medium.com/redteam, pivotpointsecurity.com, github.com/ticarpi/jwt_tool. Exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (CVE counts, breach statistics, etc.)",
+      "passed": true,
+      "evidence": "Quantitative data: (1) $50,000 per violation for Tier 3, (2) $2,067,813 per violation for Tier 4, (3) up to 10 years imprisonment, (4) 60 days breach notification deadline, (5) 500 individuals threshold for media notification, (6) 5-15 minutes recommended access token lifetime, (7) 4 KB cookie size limit, (8) AES-256 encryption requirement, (9) TLS 1.2 minimum, (10) TLS 1.3 minimum mentioned. Meets 3."
+    },
+    {
+      "text": "References OWASP guidelines AND HIPAA sections by specific identifier",
+      "passed": true,
+      "evidence": "OWASP: References OWASP Session Management Cheat Sheet with direct quote, OWASP ASVS V3 Session Management with specific requirement. HIPAA: References 45 CFR 164.312(a) Access Control, 164.312(b) Audit Controls, 164.312(c) Integrity Controls, 164.312(e) Transmission Security, 164.312(a)(2)(iii) Automatic Logoff. Also references the 2025 HIPAA Security Rule NPRM."
+    },
+    {
+      "text": "Contains a structured comparison table (e.g., localStorage vs httpOnly cookies vs other token storage)",
+      "passed": true,
+      "evidence": "Section 5 contains a Decision Matrix table comparing localStorage, HttpOnly Cookie, BFF + Server-Side, and In-Memory + Refresh across 8 criteria (XSS token theft, CSRF, OWASP compliance, HIPAA alignment, token revocation, audit capability, implementation complexity, recommended for PHI). Also contains HIPAA safeguards table in Section 2.1."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Metrics table at end states 'Confidence: High -- OWASP, HIPAA, and IETF all align against localStorage for sensitive tokens'. Uses calibrated language (High)."
+    },
+    {
+      "text": "Addresses at least 1 counterargument (e.g., cases where localStorage might be acceptable)",
+      "passed": true,
+      "evidence": "Section 3.4 on Web Worker Isolation acknowledges a partial defense for client-side token storage. Section 1.1 quotes a security researcher demonstrating the attack is 'not theoretical' which implicitly addresses the 'it's just theoretical' counterargument. The overall framing of 'No' with specific alternative approaches acknowledges that there are defensible alternatives rather than simply dismissing all client-side approaches. However, the counterargument treatment is less explicit than the with_skill version -- no dedicated 'counterargument' section."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation",
+      "passed": true,
+      "evidence": "Section 6 Conclusion provides a clear 4-point summary of why localStorage is unsafe, and the recommended approach is specifically 'Backend-for-Frontend (BFF) pattern with server-side token storage, combined with HttpOnly/Secure/SameSite cookies for session identification, MFA, short token lifetimes, audit logging, and encryption at rest and in transit.' Section 3 provides detailed implementation guidance for each alternative."
+    },
+    {
+      "text": "Shows methodology (search queries, security analysis chain)",
+      "passed": false,
+      "evidence": "No explicit methodology section. The output does not document search queries, research decomposition, or a formal analysis chain. The reasoning flows logically (vulnerability -> standards -> HIPAA -> alternatives -> recommendation) but this structure is not explicitly documented as methodology."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  }
+}

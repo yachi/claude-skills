@@ -1,0 +1,15 @@
+{
+  "eval_id": 1,
+  "eval_name": "gdpr-us-eu-expansion",
+  "prompt": "My startup is expanding from the US to the EU. What data handling changes do we need for GDPR compliance? We currently store user PII in a single US-based AWS region.",
+  "assertions": [
+    {"text": "Contains at least 5 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains at least 3 concrete quantitative data points (fine amounts, timelines, costs)", "type": "quantitative"},
+    {"text": "References specific GDPR articles by number (e.g., Article 46, Article 49)", "type": "quantitative"},
+    {"text": "Contains a structured comparison table or matrix (e.g., transfer mechanisms, AWS regions)", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage or calibrated language)", "type": "structural"},
+    {"text": "Addresses at least 1 counterargument or alternative approach with tradeoffs", "type": "qualitative"},
+    {"text": "Ends with a clear, specific actionable recommendation or roadmap", "type": "structural"},
+    {"text": "Shows methodology (search queries, regulatory research chain)", "type": "structural"}
+  ]
+}

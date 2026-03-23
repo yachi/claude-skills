@@ -1,0 +1,15 @@
+{
+  "eval_id": 2,
+  "eval_name": "jwt-localstorage-hipaa-phi",
+  "prompt": "Is it safe to use JWT tokens stored in localStorage for authentication in a healthcare app that handles PHI?",
+  "assertions": [
+    {"text": "Contains at least 5 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains at least 3 concrete quantitative data points (CVE counts, breach statistics, etc.)", "type": "quantitative"},
+    {"text": "References OWASP guidelines AND HIPAA sections by specific identifier", "type": "quantitative"},
+    {"text": "Contains a structured comparison table (e.g., localStorage vs httpOnly cookies vs other token storage)", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage or calibrated language)", "type": "structural"},
+    {"text": "Addresses at least 1 counterargument (e.g., cases where localStorage might be acceptable)", "type": "qualitative"},
+    {"text": "Ends with a clear, specific actionable recommendation", "type": "structural"},
+    {"text": "Shows methodology (search queries, security analysis chain)", "type": "structural"}
+  ]
+}

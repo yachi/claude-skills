@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>/dr Deep Research Skill — Benchmark Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Fragment+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-body: 'Bricolage Grotesque', system-ui, sans-serif;
+  --font-mono: 'Fragment Mono', 'SF Mono', Consolas, monospace;
+  --bg: #faf8f5;
+  --surface: #ffffff;
+  --surface2: #f5f2ed;
+  --surface-elevated: #ffffff;
+  --border: rgba(0, 0, 0, 0.07);
+  --border-bright: rgba(0, 0, 0, 0.14);
+  --text: #1a1816;
+  --text-dim: #7a7267;
+  --accent: #1e3a5f;
+  --accent-light: #2d5a8a;
+  --accent-dim: rgba(30, 58, 95, 0.06);
+  --gold: #d4a73a;
+  --gold-dim: rgba(212, 167, 58, 0.1);
+  --green: #2d6a4f;
+  --green-bright: #40916c;
+  --green-dim: rgba(45, 106, 79, 0.08);
+  --red: #9b2226;
+  --red-dim: rgba(155, 34, 38, 0.08);
+  --orange: #bc6c25;
+  --orange-dim: rgba(188, 108, 37, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12100e;
+    --surface: #1c1a17;
+    --surface2: #252320;
+    --surface-elevated: #2a2825;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-bright: rgba(255, 255, 255, 0.12);
+    --text: #ede8e0;
+    --text-dim: #9a9185;
+    --accent: #6ba3d6;
+    --accent-light: #8ec0f0;
+    --accent-dim: rgba(107, 163, 214, 0.1);
+    --gold: #f0c860;
+    --gold-dim: rgba(240, 200, 96, 0.12);
+    --green: #52b788;
+    --green-bright: #74c69d;
+    --green-dim: rgba(82, 183, 136, 0.1);
+    --red: #e76f6f;
+    --red-dim: rgba(231, 111, 111, 0.1);
+    --orange: #e5a35c;
+    --orange-dim: rgba(229, 163, 92, 0.1);
+  }
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, var(--accent-dim) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, var(--gold-dim) 0%, transparent 40%);
+  color: var(--text);
+  font-family: var(--font-body);
+  padding: 40px;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate { animation: fadeUp 0.4s ease-out both; animation-delay: calc(var(--i, 0) * 0.06s); }
+.animate-scale { animation: fadeScale 0.4s ease-out both; animation-delay: calc(var(--i, 0) * 0.08s); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; } }
+
+/* Header */
+.page-header { margin-bottom: 48px; }
+.page-header h1 { font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 8px; }
+.page-header h1 span { color: var(--gold); }
+.page-header .subtitle { color: var(--text-dim); font-size: 1.05rem; max-width: 700px; line-height: 1.5; }
+.tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: 1.2px; padding: 3px 10px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); margin-bottom: 12px; }
+
+/* KPI Cards */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card--hero {
+  background: color-mix(in srgb, var(--surface) 92%, var(--accent) 8%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border-color: color-mix(in srgb, var(--border) 50%, var(--accent) 50%);
+}
+.kpi-card__label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); margin-bottom: 8px; }
+.kpi-card__value { font-size: 2rem; font-weight: 800; line-height: 1.1; }
+.kpi-card__delta { font-family: var(--font-mono); font-size: 12px; margin-top: 6px; }
+.delta-up { color: var(--green-bright); }
+.delta-neutral { color: var(--text-dim); }
+.delta-cost { color: var(--orange); }
+
+/* Section */
+.section { margin-bottom: 48px; }
+.section-label { font-family: var(--font-mono); font-size: 11px; font-weight: 400; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.section-label::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+.section h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 16px; }
+
+/* Tables */
+.table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+thead { position: sticky; top: 0; z-index: 1; }
+thead th {
+  background: var(--surface2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dim);
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-bright);
+}
+tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface2) 40%, var(--surface) 60%); }
+tbody tr:hover { background: var(--accent-dim); }
+td.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+td.eval-name { font-weight: 600; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.badge--pass { background: var(--green-dim); color: var(--green-bright); }
+.badge--fail { background: var(--red-dim); color: var(--red); }
+.badge--partial { background: var(--orange-dim); color: var(--orange); }
+.badge--info { background: var(--accent-dim); color: var(--accent); }
+
+/* Verdict cards */
+.verdict-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+@media (max-width: 768px) { .verdict-grid { grid-template-columns: 1fr; } }
+.verdict-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+}
+.verdict-card h3 { font-size: 1rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.verdict-card ul { list-style: none; padding: 0; }
+.verdict-card li { padding: 6px 0; font-size: 0.88rem; color: var(--text-dim); line-height: 1.5; position: relative; padding-left: 16px; }
+.verdict-card li::before { content: ''; position: absolute; left: 0; top: 14px; width: 5px; height: 5px; border-radius: 50%; }
+.strength li::before { background: var(--green-bright); }
+.weakness li::before { background: var(--orange); }
+
+/* Bar chart (CSS) */
+.bar-chart { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); width: 160px; text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 28px; background: var(--surface2); border-radius: 6px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; padding-left: 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: white; transition: width 0.6s ease-out; }
+.bar-fill--skill { background: var(--accent); }
+.bar-fill--baseline { background: var(--text-dim); opacity: 0.6; }
+.bar-pair { display: flex; flex-direction: column; gap: 4px; }
+
+/* Insights */
+.insight-card {
+  background: color-mix(in srgb, var(--surface) 92%, var(--gold) 8%);
+  border: 1px solid color-mix(in srgb, var(--border) 50%, var(--gold) 50%);
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.insight-card h3 { font-size: 1rem; margin-bottom: 10px; color: var(--gold); }
+.insight-card p { font-size: 0.9rem; color: var(--text-dim); line-height: 1.6; }
+
+/* Details/Summary */
+details { margin-bottom: 16px; }
+summary {
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  padding: 10px 0;
+  list-style: none;
+}
+summary::before { content: '+ '; }
+details[open] summary::before { content: '- '; }
+details .detail-content { padding: 16px 0; }
+
+/* Footer */
+.page-footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.8rem; font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="page-header animate" style="--i: 0">
+  <div class="tag">Skill Evaluation Report</div>
+  <h1>/dr Deep Research <span>Benchmark</span></h1>
+  <p class="subtitle">Iteration 1 — 5 evals, 10 runs (with-skill vs baseline), 8 assertions each. Model: claude-opus-4-6. Date: 2026-03-21.</p>
+</header>
+
+<!-- KPI Summary -->
+<div class="kpi-grid">
+  <div class="kpi-card kpi-card--hero animate-scale" style="--i: 1">
+    <div class="kpi-card__label">With-Skill Pass Rate</div>
+    <div class="kpi-card__value" style="color: var(--green-bright)">100%</div>
+    <div class="kpi-card__delta delta-up">40/40 assertions passed</div>
+  </div>
+  <div class="kpi-card animate-scale" style="--i: 2">
+    <div class="kpi-card__label">Baseline Pass Rate</div>
+    <div class="kpi-card__value">80%</div>
+    <div class="kpi-card__delta delta-neutral">32/40 assertions passed</div>
+  </div>
+  <div class="kpi-card animate-scale" style="--i: 3">
+    <div class="kpi-card__label">Avg Sources (Skill)</div>
+    <div class="kpi-card__value">37</div>
+    <div class="kpi-card__delta delta-up">vs 20 baseline (+85%)</div>
+  </div>
+  <div class="kpi-card animate-scale" style="--i: 4">
+    <div class="kpi-card__label">Token Cost</div>
+    <div class="kpi-card__value" style="color: var(--orange)">1.8x</div>
+    <div class="kpi-card__delta delta-cost">52K avg vs 29K baseline</div>
+  </div>
+  <div class="kpi-card animate-scale" style="--i: 5">
+    <div class="kpi-card__label">Time Cost</div>
+    <div class="kpi-card__value" style="color: var(--orange)">1.9x</div>
+    <div class="kpi-card__delta delta-cost">444s avg vs 236s baseline</div>
+  </div>
+</div>
+
+<!-- Pass Rate by Eval -->
+<section class="section animate" style="--i: 6">
+  <div class="section-label">Assertion Pass Rates</div>
+  <h2>Per-Eval Comparison</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Eval</th>
+          <th>Difficulty</th>
+          <th>With Skill</th>
+          <th>Baseline</th>
+          <th>Delta</th>
+          <th>Baseline Failures</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="eval-name">SQLite vs PostgreSQL</td>
+          <td><span class="badge badge--info">Standard</span></td>
+          <td><span class="badge badge--pass">8/8</span></td>
+          <td><span class="badge badge--partial">6/8</span></td>
+          <td class="num">+25pp</td>
+          <td>Standards by section, Methodology</td>
+        </tr>
+        <tr>
+          <td class="eval-name">GDPR Expansion</td>
+          <td><span class="badge badge--info">Standard</span></td>
+          <td><span class="badge badge--pass">8/8</span></td>
+          <td><span class="badge badge--partial">6/8</span></td>
+          <td class="num">+25pp</td>
+          <td>Confidence level, Methodology</td>
+        </tr>
+        <tr>
+          <td class="eval-name">JWT Healthcare</td>
+          <td><span class="badge badge--info">Standard</span></td>
+          <td><span class="badge badge--pass">8/8</span></td>
+          <td><span class="badge badge--partial">7/8</span></td>
+          <td class="num">+12.5pp</td>
+          <td>Methodology</td>
+        </tr>
+        <tr>
+          <td class="eval-name">Rust vs Zig Trading</td>
+          <td><span class="badge badge--fail">Hard</span></td>
+          <td><span class="badge badge--pass">8/8</span></td>
+          <td><span class="badge badge--partial">7/8</span></td>
+          <td class="num">+12.5pp</td>
+          <td>Methodology</td>
+        </tr>
+        <tr>
+          <td class="eval-name">SCADA IoT Replace</td>
+          <td><span class="badge badge--fail">Hard</span></td>
+          <td><span class="badge badge--pass">8/8</span></td>
+          <td><span class="badge badge--partial">6/8</span></td>
+          <td class="num">+25pp</td>
+          <td>Standards by section, Confidence level</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Quantitative Deep Dive -->
+<section class="section animate" style="--i: 7">
+  <div class="section-label">Quantitative Depth</div>
+  <h2>Sources, Data Points, and Standards</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Eval</th>
+          <th>Sources (Skill)</th>
+          <th>Sources (Base)</th>
+          <th>Data Pts (Skill)</th>
+          <th>Data Pts (Base)</th>
+          <th>Standards (Skill)</th>
+          <th>Standards (Base)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="eval-name">SQLite vs Postgres</td>
+          <td class="num">30</td><td class="num">17</td>
+          <td class="num">20+</td><td class="num">~5</td>
+          <td class="num">6</td><td class="num">0</td>
+        </tr>
+        <tr>
+          <td class="eval-name">GDPR Expansion</td>
+          <td class="num">46</td><td class="num">25</td>
+          <td class="num">20+</td><td class="num">~6</td>
+          <td class="num">5</td><td class="num">3</td>
+        </tr>
+        <tr>
+          <td class="eval-name">JWT Healthcare</td>
+          <td class="num">30</td><td class="num">13</td>
+          <td class="num">11+</td><td class="num">~10</td>
+          <td class="num">12</td><td class="num">4</td>
+        </tr>
+        <tr>
+          <td class="eval-name">Rust vs Zig Trading</td>
+          <td class="num">45</td><td class="num">28</td>
+          <td class="num">30+</td><td class="num">~12</td>
+          <td class="num">9</td><td class="num">4</td>
+        </tr>
+        <tr>
+          <td class="eval-name">SCADA IoT Replace</td>
+          <td class="num">35</td><td class="num">19</td>
+          <td class="num">15+</td><td class="num">~5</td>
+          <td class="num">10</td><td class="num">4</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Cross-Examination Survivability -->
+<section class="section animate" style="--i: 8">
+  <div class="section-label">Expert Cross-Examination</div>
+  <h2>Survivability Scores (0-10)</h2>
+  <div class="bar-chart">
+    <div class="bar-row">
+      <div class="bar-label">SQLite vs Postgres</div>
+      <div class="bar-track">
+        <div class="bar-pair" style="width: 100%;">
+          <div class="bar-fill bar-fill--skill" style="width: 85%;">8.5 with skill</div>
+        </div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="visibility: hidden;">_</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--baseline" style="width: 55%;">5.5 baseline</div>
+      </div>
+    </div>
+
+    <div class="bar-row" style="margin-top: 8px;">
+      <div class="bar-label">GDPR Expansion</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--skill" style="width: 90%;">9.0 with skill</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="visibility: hidden;">_</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--baseline" style="width: 50%;">5.0 baseline</div>
+      </div>
+    </div>
+
+    <div class="bar-row" style="margin-top: 8px;">
+      <div class="bar-label">JWT Healthcare</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--skill" style="width: 90%;">9.0 with skill</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="visibility: hidden;">_</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--baseline" style="width: 60%;">6.0 baseline</div>
+      </div>
+    </div>
+
+    <div class="bar-row" style="margin-top: 8px;">
+      <div class="bar-label">Rust vs Zig Trading</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--skill" style="width: 85%;">8.5 with skill</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="visibility: hidden;">_</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--baseline" style="width: 70%;">7.0 baseline</div>
+      </div>
+    </div>
+
+    <div class="bar-row" style="margin-top: 8px;">
+      <div class="bar-label">SCADA IoT Replace</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--skill" style="width: 87%;">8.7 with skill</div>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label" style="visibility: hidden;">_</div>
+      <div class="bar-track">
+        <div class="bar-fill bar-fill--baseline" style="width: 54%;">5.4 baseline</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Cost-Benefit -->
+<section class="section animate" style="--i: 9">
+  <div class="section-label">Cost vs Quality Tradeoff</div>
+  <h2>Token &amp; Time Investment</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Eval</th>
+          <th>Tokens (Skill)</th>
+          <th>Tokens (Base)</th>
+          <th>Time (Skill)</th>
+          <th>Time (Base)</th>
+          <th>Words (Skill)</th>
+          <th>Words (Base)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="eval-name">SQLite vs Postgres</td>
+          <td class="num">49K</td><td class="num">24K</td>
+          <td class="num">448s</td><td class="num">189s</td>
+          <td class="num">4,144</td><td class="num">1,830</td>
+        </tr>
+        <tr>
+          <td class="eval-name">GDPR Expansion</td>
+          <td class="num">52K</td><td class="num">29K</td>
+          <td class="num">432s</td><td class="num">250s</td>
+          <td class="num">4,696</td><td class="num">2,679</td>
+        </tr>
+        <tr>
+          <td class="eval-name">JWT Healthcare</td>
+          <td class="num">46K</td><td class="num">24K</td>
+          <td class="num">410s</td><td class="num">192s</td>
+          <td class="num">3,699</td><td class="num">1,837</td>
+        </tr>
+        <tr>
+          <td class="eval-name">Rust vs Zig Trading</td>
+          <td class="num">56K</td><td class="num">34K</td>
+          <td class="num">425s</td><td class="num">289s</td>
+          <td class="num">4,356</td><td class="num">2,650</td>
+        </tr>
+        <tr>
+          <td class="eval-name">SCADA IoT Replace</td>
+          <td class="num">58K</td><td class="num">32K</td>
+          <td class="num">504s</td><td class="num">258s</td>
+          <td class="num">4,470</td><td class="num">2,328</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Analyst Insights -->
+<section class="section animate" style="--i: 10">
+  <div class="section-label">Analyst Observations</div>
+  <h2>Key Patterns</h2>
+
+  <div class="insight-card">
+    <h3>The skill's value is structural rigor, not raw intelligence</h3>
+    <p>Both with-skill and baseline reach the same correct conclusions in all 5 evals. The baselines are competent analyses. The skill's value-add is forcing <strong>methodology disclosure, adversarial review, assumption audits, confidence calibration, and standards mapping</strong> — exactly the structural elements that separate "good enough for internal discussion" from "defensible under expert cross-examination."</p>
+  </div>
+
+  <div class="insight-card">
+    <h3>Baseline has real strengths the skill should learn from</h3>
+    <p>Across all 5 evals, baselines consistently produced <strong>more concise output</strong> (43-55% shorter), <strong>more developer-friendly guidance</strong> (code examples, cookie attribute tables, spare parts lists), and occasionally <strong>unique insights the skill missed</strong> (Tokio latency warning, Web Worker isolation, Google Consent Mode v2, ISA-95 Purdue model). The skill should incorporate guidance to preserve practical implementation advice alongside rigor.</p>
+  </div>
+
+  <div class="insight-card">
+    <h3>Hardest eval (Rust vs Zig) showed the narrowest gap</h3>
+    <p>The Rust vs Zig trading eval had the closest scores: 8.5 vs 7.0 cross-examination survivability. The baseline independently produced a weighted decision matrix, named real companies (Citadel, Jane Street, Databento), and identified the Tokio async pitfall. <strong>For highly technical topics where the model already has deep domain knowledge, the marginal value of the skill is lower</strong> (~0.5 SD technical uplift vs ~1.5 SD regulatory/compliance uplift).</p>
+  </div>
+
+  <div class="verdict-grid">
+    <div class="verdict-card strength">
+      <h3><span style="color: var(--green-bright);">&#9679;</span> Skill Consistently Adds</h3>
+      <ul>
+        <li>Research decomposition / methodology transparency</li>
+        <li>Per-finding confidence percentages (not just "High")</li>
+        <li>Standards cited by clause/section number</li>
+        <li>Adversarial review with structured counterarguments</li>
+        <li>Assumption audit with risk-if-wrong analysis</li>
+        <li>Failure mode enumeration</li>
+        <li>Conditions that change the recommendation</li>
+        <li>Cost/TCO modeling with line items</li>
+        <li>~85% more source URLs on average</li>
+      </ul>
+    </div>
+    <div class="verdict-card weakness">
+      <h3><span style="color: var(--orange);">&#9679;</span> Baseline Occasionally Beats Skill</h3>
+      <ul>
+        <li>Code examples and implementation guidance</li>
+        <li>Conciseness (43-55% shorter)</li>
+        <li>Management-friendly communication style</li>
+        <li>Practical operational tips (spare parts, vendor screening checklists)</li>
+        <li>Specific tool recommendations (kani, miri, TrustInSoft)</li>
+        <li>Better signal-to-noise for time-pressed readers</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Assertion Heatmap -->
+<section class="section animate" style="--i: 11">
+  <div class="section-label">Assertion Heatmap</div>
+  <h2>Which Assertions Discriminate?</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Assertion</th>
+          <th>Skill Pass</th>
+          <th>Base Pass</th>
+          <th>Discriminating?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A1: Verifiable source URLs (5+)</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--info">No</span> — both always pass</td>
+        </tr>
+        <tr>
+          <td>A2: Quantitative data points (3+)</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--info">No</span> — threshold too low</td>
+        </tr>
+        <tr>
+          <td>A3: Industry standards by section</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--partial">3/5</span></td>
+          <td><span class="badge badge--pass">Yes</span> — fails on SQLite, SCADA</td>
+        </tr>
+        <tr>
+          <td>A4: Comparison table/matrix</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--info">No</span> — both always pass</td>
+        </tr>
+        <tr>
+          <td>A5: Explicit confidence level</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--partial">3/5</span></td>
+          <td><span class="badge badge--pass">Yes</span> — fails on SQLite, GDPR, SCADA</td>
+        </tr>
+        <tr>
+          <td>A6: Counterarguments</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--info">Weak</span> — baseline passes but shallowly</td>
+        </tr>
+        <tr>
+          <td>A7: Actionable recommendation</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--info">No</span> — both always pass</td>
+        </tr>
+        <tr>
+          <td>A8: Shows methodology</td>
+          <td><span class="badge badge--pass">5/5</span></td>
+          <td><span class="badge badge--partial">1/5</span></td>
+          <td><span class="badge badge--pass">Strong</span> — most discriminating</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top: 12px; font-size: 0.85rem; color: var(--text-dim);">A1, A2, A4, A7 are non-discriminating — both configurations always pass. Consider raising thresholds (e.g., 10+ sources, 10+ data points) for iteration 2. A8 (methodology) is the strongest discriminator: skill always passes, baseline almost never does.</p>
+</section>
+
+<!-- Recommendations for Iteration 2 -->
+<section class="section animate" style="--i: 12">
+  <div class="section-label">Iteration 2 Recommendations</div>
+  <h2>Skill Improvements</h2>
+
+  <details>
+    <summary>Add implementation guidance to the skill protocol</summary>
+    <div class="detail-content">
+      <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">The baseline consistently produces more actionable implementation advice (code examples, tool names, configuration details). Add a Phase 6.5 "Implementation Guidance" to the skill that says: "After synthesizing findings, include practical next steps — code snippets, tool recommendations, configuration examples — not just what to do but how to do it."</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Add conciseness guidance</summary>
+    <div class="detail-content">
+      <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">With-skill outputs average 4,273 words vs baseline's 2,265 words (1.9x). Add guidance: "Use collapsible sections for secondary evidence. Lead with a 3-sentence executive summary. The main body should be under 3,000 words — put supporting detail in appendices."</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Raise assertion thresholds</summary>
+    <div class="detail-content">
+      <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">A1 (5+ sources) and A2 (3+ data points) never discriminate. Raise to 15+ sources and 10+ data points. Add new assertions: "Includes cost/TCO analysis" and "States conditions that change the recommendation."</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Capture baseline's unique strengths</summary>
+    <div class="detail-content">
+      <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.6;">The baseline produced insights the skill missed in 4/5 evals (Tokio warning, Web Worker isolation, Google Consent Mode v2, ISA-95 Purdue model, spare parts stockpiling). Consider adding: "After completing your research, ask: what practical operational advice would a practitioner add that my standards-focused analysis may have missed?"</p>
+    </div>
+  </details>
+</section>
+
+<!-- Final Verdict -->
+<section class="section animate" style="--i: 13">
+  <div class="section-label">Final Verdict</div>
+  <h2>Is the Skill Worth It?</h2>
+  <div class="verdict-card" style="border-left: 4px solid var(--green-bright); margin-bottom: 0;">
+    <p style="font-size: 1.05rem; line-height: 1.7;"><strong>Yes.</strong> The /dr skill produces research that survives expert cross-examination (avg 8.7/10 vs 5.8/10 baseline). It costs 1.8x tokens and 1.9x time — a modest premium for transforming "good internal analysis" into "audit-defensible, expert-grade research."</p>
+    <p style="font-size: 0.9rem; color: var(--text-dim); margin-top: 12px; line-height: 1.6;">The skill's primary value is <strong>structural discipline</strong>: methodology transparency, standards compliance mapping, adversarial review, and calibrated confidence. These are exactly the elements that separate research you can act on from research you'll second-guess. The iteration 2 improvements (implementation guidance, conciseness, baseline insights) would close the remaining gaps without sacrificing rigor.</p>
+  </div>
+</section>
+
+<footer class="page-footer animate" style="--i: 14">
+  /dr skill benchmark &middot; iteration 1 &middot; 5 evals &middot; claude-opus-4-6 &middot; 2026-03-21
+</footer>
+
+</body>
+</html>

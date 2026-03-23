@@ -1,0 +1,53 @@
+{
+  "eval_id": 3,
+  "eval_name": "rust-vs-zig-latency-trading",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 40+ unique URLs across categories: submicro.krishnabajpai.me, rustquant.io, programming-language-benchmarks.vercel.app, zackoverflow.dev, crates.io, lib.rs, zigistry.dev, github.com/tigerbeetle, survey.stackoverflow.co, ziglang.org, blog.logrocket.com, efinancialcareers.com, ziprecruiter.com, glassdoor.com, cisa.gov, sec.gov, esma.europa.eu, fca.org.uk, finra.org, databento.com, medium.com, thenewstack.io, rustfoundation.org, media.defense.gov, stackoverflow.blog, rustjobs.dev, wellfound.com, sonatype.com, iso.org, github.com/ziglang. Far exceeds 5."
+    },
+    {
+      "text": "Contains at least 5 concrete quantitative data points (latency benchmarks, hiring stats, ecosystem metrics)",
+      "passed": true,
+      "evidence": "Extensive quantitative data: (1) SubMicro 890ns median latency, (2) 87ns market data ingestion, (3) 40ns signal extraction, (4) 210,085+ crates on crates.io, (5) 507.6M downloads/day, (6) 2.2x per year download growth, (7) 54,187 package authors, (8) ~2,000 Zig packages, (9) JPMorgan 24 Rust jobs vs 908 C++ jobs, (10) 17 Zig jobs on ZipRecruiter, (11) Rust salary $108K-$146K, (12) NYC avg $212K, (13) Zig 1.54-1.76x faster in specific micro-benchmarks, (14) Google Chrome prevented est. 2,847 memory safety vulns, (15) $12M savings, (16) Rust #1 most admired (72%), Zig #4 (64%), (17) $512K pledged to Zig Foundation. Far exceeds 5."
+    },
+    {
+      "text": "References at least 1 financial regulatory standard (MiFID II, SEC Rule 15c3-5, or equivalent)",
+      "passed": true,
+      "evidence": "References multiple financial regulatory standards with specific identifiers: SEC Rule 15c3-5 (Market Access Rule) with SEC URL, MiFID II Article 17 with ESMA URL, FCA MAR 7A.3 with FCA URL, FINRA Market Access Rule with FINRA URL. Also references CISA memory safety mandate (January 1, 2026 deadline), ISO/IEC 25010:2023, PCI-DSS, SOC 2, ISO 27001."
+    },
+    {
+      "text": "Contains a structured multi-dimensional comparison table (latency, ecosystem, hiring, compliance)",
+      "passed": true,
+      "evidence": "Contains multiple structured tables: (1) Performance Comparison Matrix with 9 dimensions and weighted scores, (2) Ecosystem table (packages, downloads, growth), (3) Hiring market comparison table, (4) Safety feature comparison table (7 features), (5) Industry Standards Compliance table (7 standards with Rust/Zig status), (6) Cost Analysis table, (7) Benchmark Data Points table, (8) Assumption Audit table."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Overall confidence: 72%. Sub-finding confidences: Performance 80%, Ecosystem 90%, Learning curve 85%, Hiring 88%, Regulatory 82%, Safety 90%, TigerBeetle 85%, Zig 1.0 92%. Final recommendation restates 72% with explanation of uncertainty allocation."
+    },
+    {
+      "text": "Addresses counterarguments for the recommended choice AND makes a case for the alternative",
+      "passed": true,
+      "evidence": "4 detailed counterarguments: (1) 'Zig's simplicity means faster time-to-market' -- makes case for Zig, (2) 'Rust's borrow checker will force unsafe anyway' -- cites Databento's experience as evidence FOR Zig, (3) 'Hiring market for Rust in finance is too small' -- validates the concern, (4) 'Zig 1.0 will land in 2026, making stability concern moot' -- addresses future viability. Also Section 'Alternatives Considered' makes explicit case for Zig (TigerBeetle) and hybrid C++/Rust."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation with conditions",
+      "passed": true,
+      "evidence": "Recommendation provides phased plan: Phase 0 (Month 1-2) prototype in C++, Phase 1 (Month 2-6) train on Rust, Phase 2 (Month 6-12) rewrite hot path, Phase 3 (Month 12-18) testing and deployment. Includes specific fallback (hybrid C++/Rust) and 4 conditions under which recommendation changes (Zig 1.0, team fails to learn Rust in 6 months, CISA exemption, FPGA needed)."
+    },
+    {
+      "text": "Shows methodology (benchmarks, data sources, analysis approach)",
+      "passed": true,
+      "evidence": "Research Decomposition section lists 8 sub-questions with evidence types and primary sources. Benchmark Data Points table cites specific systems with latency measurements and sources. Quantitative Analysis section shows weighted scoring methodology. Adversarial Review includes systematic Assumption Audit and Failure Modes analysis."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

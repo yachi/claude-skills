@@ -1,0 +1,53 @@
+{
+  "eval_id": 3,
+  "eval_name": "rust-vs-zig-latency-trading",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 28 unique URLs including dev.to, app.daily.dev, techpreneurr.medium.com, devclass.com, medium.com (Rust job market), imocha.io, ziprecruiter.com, efinancialcareers.com (multiple), downgraf.com, github.com/barter-rs, lib.rs, substack.com (multiple), trust-in-soft.com, aws.amazon.com, esma.europa.eu, javacodegeeks.com, ziglang.org, blog.jetbrains.com, docs.rust-embedded.org, submicro.krishnabajpai.me, tokio.rs, scylladb.com. Exceeds 5."
+    },
+    {
+      "text": "Contains at least 5 concrete quantitative data points (latency benchmarks, hiring stats, ecosystem metrics)",
+      "passed": true,
+      "evidence": "Quantitative data: (1) SubMicro 890ns latency, (2) current C++ 2.3us p99, (3) DPDK half-roundtrip ~1.1us for UDP, (4) Tokio ~8us additional latency on localhost, (5) 150,000+ crates on crates.io, (6) ~2,000 Zig packages, (7) Rust avg salary ~$130K, reaching $212K in NYC, (8) 4,927 Web3 Rust jobs, (9) 17-25 Zig job postings total, (10) MiFID II 100 microsecond timestamping accuracy, (11) 65 fields T+1 transaction reporting, (12) 5-7 year audit trail storage. Exceeds 5."
+    },
+    {
+      "text": "References at least 1 financial regulatory standard (MiFID II, SEC Rule 15c3-5, or equivalent)",
+      "passed": true,
+      "evidence": "Section 4.1 references MiFID II with specific requirements (timestamping accuracy to 100 microseconds, 5-7 year audit trail, 65-field T+1 reporting), SEC Rule 613/CAT. Section 4.2 references CISA/White House ONCD memory safety mandate. Also mentions ISO 26262, DO-178C for regulatory precedent. ESMA URL provided in sources."
+    },
+    {
+      "text": "Contains a structured multi-dimensional comparison table (latency, ecosystem, hiring, compliance)",
+      "passed": true,
+      "evidence": "Section 7 Decision Matrix contains a weighted comparison table with 7 criteria (raw performance, ecosystem, hiring, regulatory, maintainability, memory safety, migration cost) across Rust, Zig, and C++, with weights and final weighted totals (Rust 8.0, Zig 3.9, C++ 7.8). Also ecosystem comparison tables in 2.3 and hiring comparison in 3.3."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Metrics table at end states: 'Confidence: High for Rust recommendation; Medium for sub-us achievability in software alone'. Uses calibrated language (High/Medium) for different aspects."
+    },
+    {
+      "text": "Addresses counterarguments for the recommended choice AND makes a case for the alternative",
+      "passed": true,
+      "evidence": "Section 5.2 'Why Not Zig?' makes explicit case against Zig with 5 specific reasons. Section 5.3 'Why Not Stay with C++' acknowledges C++ is 'a viable option' and the latency improvement is 'primarily an architecture problem.' Section 6 Alternative Considerations discusses FPGA and C++ modernization (C++26 called 'big hairy deal' by Citadel's Bryce Adelstein Lelbach). The output acknowledges Zig's genuine technical merits while recommending against it."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation with conditions",
+      "passed": true,
+      "evidence": "Section 8 Final Recommendation provides 4-point roadmap: (1) invest in hardware/OS optimization for 80% of latency reduction, (2) rewrite hot path in Rust with no_std/zero-allocation patterns, (3) keep C++ as fallback, (4) evaluate FPGA if needed. Also states 'Revisit [Zig] in 2027-2028.' The phased migration in 5.1 provides a 12-month month-by-month plan."
+    },
+    {
+      "text": "Shows methodology (benchmarks, data sources, analysis approach)",
+      "passed": false,
+      "evidence": "No explicit methodology section. The output does not document a research decomposition, search queries, or formal analysis approach. While it references benchmarks and data sources throughout the text, it does not have a dedicated methodology disclosure showing how the research was structured or conducted."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 1,
+    "total": 8,
+    "pass_rate": 0.875
+  }
+}

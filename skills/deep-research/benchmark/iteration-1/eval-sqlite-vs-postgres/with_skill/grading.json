@@ -1,0 +1,53 @@
+{
+  "eval_id": 0,
+  "eval_name": "sqlite-vs-postgres-saas",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "The Sources section contains 30+ unique URLs across categories including sqlite.org, postgresql.org, pgbouncer.org, aws.amazon.com, cheatsheetseries.owasp.org, phiresky.github.io, blog.skypilot.co, crates.io equivalents, neon.com, etc. Well exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (numbers, benchmarks, statistics)",
+      "passed": true,
+      "evidence": "Numerous quantitative data points: (1) SQLite single writer vs PostgreSQL hundreds+ concurrent writers, (2) SkyPilot 10-60s busy_timeout at 500x concurrency, (3) Rails app 2,730 write req/sec on SQLite, (4) PostgreSQL 5-10MB RAM per connection, (5) SQLite max 281 TB, (6) phiresky 100K SELECTs/sec, (7) andersmurphy 100,000 TPS over billion rows, (8) AWS RDS pricing ~$58/month to ~$116/month, (9) Stack Overflow 2024 PostgreSQL #1 most admired. Far exceeds 3."
+    },
+    {
+      "text": "References at least 1 specific industry standard by name and section",
+      "passed": true,
+      "evidence": "References multiple standards with specific identifiers: OWASP Multi-Tenant Security Cheat Sheet, SOC 2 Type II (Trust Services Criteria), GDPR Art. 25 and Art. 32, PCI-DSS v4.0 Req. 7/8/10, NIST SP 800-53 AC and AU families, ISO 27001:2022 A.8.3 and A.8.9."
+    },
+    {
+      "text": "Contains a structured comparison table or matrix",
+      "passed": true,
+      "evidence": "Multiple structured tables: concurrency comparison table (SQLite WAL vs PostgreSQL MVCC), risk assessment table, operational characteristics table, security feature comparison, ecosystem/tooling table, growth trajectory table, industry standards compliance matrix, and a weighted cost-benefit decision matrix."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Overall confidence stated as 92%. Sub-section confidences: Concurrency 95%, Multi-Tenancy 90%, Data Volume 85%, Operational 93%, Security 92%, TCO 80%, Ecosystem 90%, Growth 88%."
+    },
+    {
+      "text": "Addresses at least 1 counterargument or dissenting view",
+      "passed": true,
+      "evidence": "Addresses 3 detailed counterarguments in the 'Adversarial Review' section: (1) 'SQLite is fast enough -- the write bottleneck is overblown', (2) 'Database-per-tenant SQLite solves all concurrency issues', (3) 'PostgreSQL is overengineered for a startup -- start simple'. Each includes evidence for/against and a verdict."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation",
+      "passed": true,
+      "evidence": "Ends with a detailed recommendation section: 'Use PostgreSQL' with specific immediate setup steps (choose managed provider, implement RLS, use PgBouncer, use an ORM), growth milestones for years 1-3+, and conditions under which the recommendation changes."
+    },
+    {
+      "text": "Shows methodology (search queries, code, or reasoning chain)",
+      "passed": true,
+      "evidence": "Shows explicit methodology in 'Research Decomposition (Phase 1)' table listing 8 sub-questions with evidence types and primary sources. Also includes 'Quantitative Analysis (Phase 4)' with a write contention model showing assumptions and calculations, and 'Adversarial Review (Phase 5)' with assumption audit."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

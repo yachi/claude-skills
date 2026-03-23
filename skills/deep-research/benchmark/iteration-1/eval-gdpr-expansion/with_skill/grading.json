@@ -1,0 +1,53 @@
+{
+  "eval_id": 1,
+  "eval_name": "gdpr-us-eu-expansion",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "The Sources section contains 40+ unique URLs across categories: gdpr-info.eu articles, dataprivacyframework.gov, ec.europa.eu, dlapiper.com, iapp.org, noyb.eu, cms.law, aws.amazon.com (multiple), nist.gov, iso.org, edpb.europa.eu, sprinto.com, usercentrics.com, secureprivacy.ai, freshfields.com, etc. Far exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (fine amounts, timelines, costs)",
+      "passed": true,
+      "evidence": "Extensive quantitative data: (1) EUR 5.65 billion total GDPR fines, (2) 2,245 total fines recorded, (3) EUR 1.2 billion Meta fine, (4) EUR 290 million Uber fine, (5) EUR 310 million LinkedIn fine, (6) DPF certification $250-$975/year, (7) Year 1 compliance cost $29,600-$273,000+, (8) AWS transfer $0.02/GB, (9) 72-hour breach notification, (10) Spain 932 fines, (11) Ireland EUR 3.5 billion total. Far exceeds 3."
+    },
+    {
+      "text": "References specific GDPR articles by number (e.g., Article 46, Article 49)",
+      "passed": true,
+      "evidence": "References numerous specific GDPR articles: Art. 5, Art. 6, Art. 7(3), Art. 12-22 (individual rights), Art. 13-14, Art. 15-22, Art. 24-25, Art. 27, Art. 28, Art. 30, Art. 32-35, Art. 37, Art. 44-49 (data transfers). Also references Chapter 5. Each with linked URLs to gdpr-info.eu."
+    },
+    {
+      "text": "Contains a structured comparison table or matrix (e.g., transfer mechanisms, AWS regions)",
+      "passed": true,
+      "evidence": "Multiple structured tables: Industry Standards Compliance table (11 rows), Cost Estimation table, AWS Migration Cost Model table, DPF Certification Fee Schedule, Timeline Estimate table, Data Subject Rights table, Alternatives comparison tables (4 alternatives each with dimension/assessment format), and Assumption Audit table."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Overall confidence stated as 85%. Sub-finding confidences: Finding 1 (DPF validity) 90%, Finding 2 (EU data residency) 92%, Finding 3 (GDPR obligations) 95%, Finding 4 (enforcement) 90%, Recommendation 88%."
+    },
+    {
+      "text": "Addresses at least 1 counterargument or alternative approach with tradeoffs",
+      "passed": true,
+      "evidence": "Adversarial Review section addresses 3 counterarguments: (1) 'The DPF is valid, so EU data residency is overkill', (2) 'GDPR doesn't actually require EU data storage' (acknowledged as technically correct), (3) 'A small startup is unlikely to be enforced against'. Each includes evidence, rebuttal, and assessment. Also 4 alternatives with tradeoff analysis."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation or roadmap",
+      "passed": true,
+      "evidence": "Recommendation section provides a phased roadmap: Immediate (Weeks 1-4) with 5 specific actions, Short-Term (Weeks 4-12) with 7 actions, Medium-Term (Weeks 12-20) with 6 actions. Each action is numbered and specific. Also includes conditions under which the recommendation changes."
+    },
+    {
+      "text": "Shows methodology (search queries, regulatory research chain)",
+      "passed": true,
+      "evidence": "Research Decomposition section shows 8 orthogonal sub-questions in a structured table with evidence types and primary sources for each. The analysis follows explicit phases of statutory text analysis, enforcement data review, and cost estimation with documented sources."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "eval_id": 3,
+  "eval_name": "rust-vs-zig-latency-trading",
+  "prompt": "We're choosing between Rust and Zig for rewriting our latency-critical trading system's hot path. Current C++ implementation does 2.3μs p99. We need sub-microsecond. The team has 5 years C++ experience but neither Rust nor Zig. Factor in hiring market, ecosystem maturity, and regulatory requirements for financial systems.",
+  "assertions": [
+    {"text": "Contains at least 5 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains at least 5 concrete quantitative data points (latency benchmarks, hiring stats, ecosystem metrics)", "type": "quantitative"},
+    {"text": "References at least 1 financial regulatory standard (MiFID II, SEC Rule 15c3-5, or equivalent)", "type": "quantitative"},
+    {"text": "Contains a structured multi-dimensional comparison table (latency, ecosystem, hiring, compliance)", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage or calibrated language)", "type": "structural"},
+    {"text": "Addresses counterarguments for the recommended choice AND makes a case for the alternative", "type": "qualitative"},
+    {"text": "Ends with a clear, specific actionable recommendation with conditions", "type": "structural"},
+    {"text": "Shows methodology (benchmarks, data sources, analysis approach)", "type": "structural"}
+  ]
+}

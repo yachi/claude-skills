@@ -1,0 +1,15 @@
+{
+  "eval_id": 4,
+  "eval_name": "scada-to-iot-chemical-plant",
+  "prompt": "Our manufacturing plant is considering replacing our SCADA system with a modern IoT architecture. We run 24/7 chemical processing with SIL-2 safety requirements. Current system is Siemens S7-400 based, 15 years old. Budget is $2M. Give me the real analysis — not vendor marketing.",
+  "assertions": [
+    {"text": "Contains at least 5 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains at least 5 concrete quantitative data points (costs, downtime estimates, safety metrics)", "type": "quantitative"},
+    {"text": "References IEC 61508 or IEC 61511 by specific section for SIL-2 requirements", "type": "quantitative"},
+    {"text": "Contains a structured cost breakdown or TCO comparison table", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage or calibrated language)", "type": "structural"},
+    {"text": "Addresses risks of migration including safety case invalidation and production downtime", "type": "qualitative"},
+    {"text": "Ends with a clear, specific actionable recommendation (phased or otherwise)", "type": "structural"},
+    {"text": "Shows methodology and explicitly avoids vendor marketing language", "type": "structural"}
+  ]
+}

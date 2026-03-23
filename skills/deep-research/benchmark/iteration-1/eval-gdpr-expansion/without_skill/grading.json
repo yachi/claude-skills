@@ -1,0 +1,53 @@
+{
+  "eval_id": 1,
+  "eval_name": "gdpr-us-eu-expansion",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 22 unique URLs including aws.amazon.com (multiple), dataprivacyframework.gov, commission.europa.eu, gdpr-info.eu (multiple articles), workforcebulletin.com, github.com/OWASP, federalregister.gov, hhs.gov, cobalt.io, glocertinternational.com, edpb.europa.eu, secureprivacy.ai, usercentrics.com, mcdonaldhopkins.com, truzta.com, chambers.com, gdprlocal.com, dataprotection.ie. Exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (fine amounts, timelines, costs)",
+      "passed": true,
+      "evidence": "Quantitative data points: (1) 72-hour breach notification window, (2) EUR 20 million or 4% turnover max fine for core violations, (3) EUR 10 million or 2% turnover for administrative violations, (4) one month deadline for data subject requests, (5) 10 years imprisonment for criminal penalties, (6) $2,067,813 max per violation (HIPAA reference in context). Meets 3."
+    },
+    {
+      "text": "References specific GDPR articles by number (e.g., Article 46, Article 49)",
+      "passed": true,
+      "evidence": "References numerous specific GDPR articles with links: Art. 6, Art. 7(3), Art. 15-22 (individual rights in table), Art. 25, Art. 27, Art. 28, Art. 30, Art. 33, Art. 34, Art. 35, Art. 37. Also references the ePrivacy Directive."
+    },
+    {
+      "text": "Contains a structured comparison table or matrix (e.g., transfer mechanisms, AWS regions)",
+      "passed": true,
+      "evidence": "Multiple structured tables: Lawful Basis table (6 rows), Data Subject Rights table (8 rows with articles and implementation requirements), HIPAA safeguards table, Decision Matrix (Section 5 comparing localStorage/HttpOnly/BFF/In-Memory), and Penalty Summary table."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": false,
+      "evidence": "No explicit confidence level is stated anywhere in the output. The text does not use percentage confidence, nor calibrated language like 'high/medium/low confidence'. The output presents information as factual without qualifying certainty levels."
+    },
+    {
+      "text": "Addresses at least 1 counterargument or alternative approach with tradeoffs",
+      "passed": true,
+      "evidence": "Section 1 presents 3 alternative approaches (Option A: EU data residency, Option B: DPF, Option C: SCCs) with explicit tradeoffs. The DPF section notes 'Risk: The DPF could face future legal challenges' and recommends a fallback. The 'Recommended Architecture' combines all three as defense-in-depth."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation or roadmap",
+      "passed": true,
+      "evidence": "Section 11 provides a detailed 5-phase roadmap with checkboxes: Phase 1 Foundation (Weeks 1-4, 5 items), Phase 2 Infrastructure (Weeks 5-10, 6 items), Phase 3 User-Facing (Weeks 11-16, 4 items), Phase 4 Operational Readiness (Weeks 17-20, 5 items), Phase 5 Ongoing (4 items)."
+    },
+    {
+      "text": "Shows methodology (search queries, regulatory research chain)",
+      "passed": false,
+      "evidence": "No explicit methodology section. The output does not document search queries, research decomposition, or a formal reasoning chain. It presents comprehensive GDPR guidance directly without showing how the research was conducted."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "eval_id": 4,
+  "eval_name": "scada-to-iot-chemical-plant",
+  "configuration": "without_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 19 unique URLs: industrialmonitordirect.com, indmallautomation.com, support.industry.siemens.com, manufacturingtomorrow.com, pteinc.com, elisity.com, isa.org (multiple), en.wikipedia.org (IEC 61511, Safety integrity level), emersonautomationexperts.com, prelectronics.com, cse-icon.com, powergearx.com, zscaler.com, dragos.com, trips-group.com, pattiengineering.com, dpstele.com, flowfuse.com. Exceeds 5."
+    },
+    {
+      "text": "Contains at least 5 concrete quantitative data points (costs, downtime estimates, safety metrics)",
+      "passed": true,
+      "evidence": "Quantitative data: (1) $150-$400 per I/O point for PLC/DCS hardware, (2) 1.5x-3x hardware cost for engineering, (3) $200K-$500K for SIL verification, (4) $50K-$200K for SCADA/HMI licensing, (5) $100K-$300K for network infrastructure, (6) $50K-$100K for training, (7) $4M-$10M+ for full rip-and-replace, (8) spare parts through 2033, (9) $800K-$1M Phase 1 budget, (10) $400K-$600K Phase 2 budget, (11) $2M-$4M additional beyond initial $2M, (12) 30-48% reduction in unplanned downtime from predictive maintenance, (13) 40% of industrial sites with direct public network connection, (14) 2,000-5,000 I/O points typical range. Exceeds 5."
+    },
+    {
+      "text": "References IEC 61508 or IEC 61511 by specific section for SIL-2 requirements",
+      "passed": false,
+      "evidence": "References IEC 61511 and IEC 62443 by name, and mentions SIL-2 requirements extensively. However, no specific clause or section numbers are cited -- e.g., does not reference IEC 61511 Clause 11.4 or IEC 61508-2 Clause 7.4.10. The closest is mentioning 'IEC 61511 separation requirement' in Section 2 without a clause number. References 'IEC 62443' for zone segmentation but without specific part/section numbers. Wikipedia links for IEC 61511 and Safety Integrity Level are provided but these are not section-specific references to the standards themselves."
+    },
+    {
+      "text": "Contains a structured cost breakdown or TCO comparison table",
+      "passed": true,
+      "evidence": "Section 9 Summary Recommendation contains a structured table with budget allocation. Section 3 provides cost framework with line items ($150-$400/IO point, $200K-$500K SIL verification, etc.) though not in a formal table format. The output identifies 'What $2M Cannot Do' as a structured list. Section 4 provides phased budget allocations: Phase 1 ~$800K-$1M, Phase 2 ~$400K-$600K, Phase 3 ~$600K+. Section 2 contains a structured comparison table (Traditional SCADA vs IoT Architecture across 6 requirements)."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": false,
+      "evidence": "No explicit confidence level is stated anywhere in the output. The text does not use percentage confidence or calibrated language like 'high/medium/low confidence'. The output presents recommendations firmly but without qualifying certainty levels."
+    },
+    {
+      "text": "Addresses risks of migration including safety case invalidation and production downtime",
+      "passed": true,
+      "evidence": "Section 2 'The IoT Replacement Fantasy vs. Reality' extensively covers risks: (1) loss of determinism ('200ms delay on pressure relief valve can cause runaway reaction'), (2) safety certification void ('complete re-assessment of SIFs, new HAZOP reviews, updated SIL verification, $200K-$500K'), (3) IEC 61511 separation requirement, (4) 'Redundancy Paradox', (5) 24/7 operation constraint requiring phased parallel running. Section 8 'Red Flags to Watch For' adds more risk awareness. Production downtime addressed in Phase 3 guidance."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation (phased or otherwise)",
+      "passed": true,
+      "evidence": "Section 9 Summary Recommendation provides a structured table with architecture (hybrid), migration path (S7-400 to S7-1500), safety system guidance, IoT layer approach, budget allocation, timeline (3-5 years), and additional budget needed. Section 4 provides detailed 3-phase plan with specific budgets per phase. The 'honest pitch' to management in Section 7 provides actionable talking points."
+    },
+    {
+      "text": "Shows methodology and explicitly avoids vendor marketing language",
+      "passed": true,
+      "evidence": "The output explicitly avoids vendor marketing: Section 2 title is 'The IoT Replacement Fantasy vs. Reality', distinguishing 'What Vendors Are Selling You' from 'The Fundamental Technical Mismatch'. Section 8 Red Flags includes 'Any vendor claiming IoT can replace your SIL-2 safety system -- they either don't understand functional safety or are being dishonest'. The management pitch states 'Replacing our SCADA with IoT is like replacing the engine of a running car with a bicycle motor because the bicycle has GPS.' However, no formal methodology/research decomposition section is present -- the analysis is structured topically rather than documenting a research process."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 2,
+    "total": 8,
+    "pass_rate": 0.75
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "eval_id": 0,
+  "eval_name": "sqlite-vs-postgres-saas",
+  "prompt": "Should I use SQLite or PostgreSQL for a new multi-tenant SaaS app expecting 500 concurrent users and 50GB of data within the first year?",
+  "assertions": [
+    {"text": "Contains at least 5 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains at least 3 concrete quantitative data points (numbers, benchmarks, statistics)", "type": "quantitative"},
+    {"text": "References at least 1 specific industry standard by name and section", "type": "quantitative"},
+    {"text": "Contains a structured comparison table or matrix", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage or calibrated language)", "type": "structural"},
+    {"text": "Addresses at least 1 counterargument or dissenting view", "type": "qualitative"},
+    {"text": "Ends with a clear, specific actionable recommendation", "type": "structural"},
+    {"text": "Shows methodology (search queries, code, or reasoning chain)", "type": "structural"}
+  ]
+}

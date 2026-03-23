@@ -1,0 +1,53 @@
+{
+  "eval_id": 4,
+  "eval_name": "scada-to-iot-chemical-plant",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 35+ unique URLs across categories: support.industry.siemens.com (multiple), eichler-service.com, intertek.com, exida.com (multiple), arcweb.com (multiple), methodfs.com, webstore.iec.ch, icheme.org, isa.org (multiple), opcconnect.opcfoundation.org (multiple), technologyreview.com, ic3.gov, innovapptive.com, accruent.com, chemicalprocessing.com, researchgate.net, osha.gov, epa.gov (multiple), profibus.com, industrialmonitordirect.com, siemens.com (multiple), tuvsud.com, industrialautomationco.com, manufacturingtomorrow.com, pmc.ncbi.nlm.nih.gov, avidsolutionsinc.com, control.com, analog.com. Far exceeds 5."
+    },
+    {
+      "text": "Contains at least 5 concrete quantitative data points (costs, downtime estimates, safety metrics)",
+      "passed": true,
+      "evidence": "Extensive quantitative data: (1) $100,000/hour average unplanned downtime in chemical industry, (2) $260K-$2M per event, (3) $20 billion annual industry-wide losses, (4) 10^6 to 10^8+ operating hours for proven-in-use evidence, (5) >=100 installed units requirement, (6) 1,750 I/O points in Emerald Kalama case study, (7) >900,000 synthetic transactions for stress testing reducing defects >98%, (8) Budget breakdown totaling $690K-$1,335K for S7-1500F, (9) $1,500K-$3,400K for full IoT replacement, (10) 5-year risk-adjusted TCO: $1,160K-$2,025K vs $3,060K-$5,950K, (11) Hot cutover 8-12 hrs best case, (12) IoT replacement 72-168 hrs best case. Far exceeds 5."
+    },
+    {
+      "text": "References IEC 61508 or IEC 61511 by specific section for SIL-2 requirements",
+      "passed": true,
+      "evidence": "References IEC 61511:2016 Clause 11.4 (proven-in-use), Clause 11.2.4 (SIS/BPCS independence), IEC 61508-2 Clause 7.4.10 (proven-in-use definition), IEC 61508-1 Clause 7.6.2.7 (independence requirements), IEC 61508-6 Annex D (chi-square confidence intervals). Also references IEC 62443 for cybersecurity, ISA TR84.00.09:2024, NAMUR NE 131/NOA, IEC 61131-3, OSHA 29 CFR 1910.119, EPA 40 CFR Part 68."
+    },
+    {
+      "text": "Contains a structured cost breakdown or TCO comparison table",
+      "passed": true,
+      "evidence": "Multiple cost tables: (1) Cost Per I/O Point Benchmarks table, (2) Estimated Budget Breakdown for S7-1500F migration (15 line items, $690K-$1,335K), (3) Full IoT Architecture Replacement cost breakdown (9 items, $1,500K-$3,400K), (4) Risk-Adjusted 5-Year TCO Comparison table (Option A vs Option B), (5) Downtime Sensitivity Analysis table (4 scenarios), (6) Industry Standards Compliance Matrix, (7) Attack surface comparison table."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Executive summary states 'Confidence level: 82%'. Recommendation section restates 'Primary recommendation (Confidence: 82%)'. Risk probability estimates are also given: 5% migration failure for S7-1500 vs 20% for IoT, 2% extended downtime vs 10%, 0.1% safety incident vs 1%."
+    },
+    {
+      "text": "Addresses risks of migration including safety case invalidation and production downtime",
+      "passed": true,
+      "evidence": "Finding 2 extensively covers safety case requirements: IEC 61511 MOC triggers complete FSA (6-12 month exercise), proven-in-use requirements, SIS/BPCS independence. Finding 4 covers production downtime: $100K/hour cost, restart penalty for continuous chemical processes, hot cutover methodology. Downtime Sensitivity Analysis shows best-case IoT replacement at $7.7M-$18.8M. Adversarial review addresses 4 counterarguments. Failure Modes section covers 5 specific scenarios."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation (phased or otherwise)",
+      "passed": true,
+      "evidence": "Recommendation provides a 4-phase plan: Phase 0 (Months 1-3, $100K-$150K, front-end engineering), Phase 1 (Months 4-12, $300K-$500K, safety system migration), Phase 2 (Months 10-18, $200K-$400K, SCADA/HMI modernization), Phase 3 (Months 16-24, $150K-$350K, IoT overlay). Total $750K-$1,400K with $600K-$1,250K contingency. Includes 5 specific conditions under which recommendation changes."
+    },
+    {
+      "text": "Shows methodology and explicitly avoids vendor marketing language",
+      "passed": true,
+      "evidence": "Research Decomposition section lists 8 orthogonal sub-questions. The output explicitly avoids marketing: Finding 3 states 'Let me be precise about what IoT architecture can and cannot do' and distinguishes monitoring from control. The TRITON malware case study is cited as real-world evidence against expanded connectivity. Budget analysis calls out hidden costs. Adversarial review Counterargument 3 directly addresses vendor cost claims: 'These claims typically exclude: SIL verification engineering, functional safety assessments, OSHA PSM management of change documentation...' Counterargument 4 addresses vendor lock-in honestly."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}

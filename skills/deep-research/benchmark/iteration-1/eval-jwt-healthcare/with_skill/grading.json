@@ -1,0 +1,53 @@
+{
+  "eval_id": 2,
+  "eval_name": "jwt-localstorage-hipaa-phi",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "Contains at least 5 unique verifiable source URLs",
+      "passed": true,
+      "evidence": "Sources section contains 25+ unique URLs including ecfr.gov (45 CFR 164.312), hhs.gov (multiple), federalregister.gov, pages.nist.gov, nvlpubs.nist.gov, csf.tools, csrc.nist.gov, cheatsheetseries.owasp.org (multiple), github.com/OWASP/ASVS, owasp.org, datatracker.ietf.org, auth0.com, duendesoftware.com, curity.io, hipaajournal.com (multiple), deepstrike.io, feroot.com, redsentry.com, pivotpointsecurity.com, cobalt.io, hitrustalliance.net, pcisecuritystandards.org. Far exceeds 5."
+    },
+    {
+      "text": "Contains at least 3 concrete quantitative data points (CVE counts, breach statistics, etc.)",
+      "passed": true,
+      "evidence": "Extensive quantitative data: (1) 94% of apps tested for injection, (2) 19% max incidence rate, (3) 274,000 occurrences, (4) 12% of healthcare breaches from web app attacks in 2025, (5) 275 million records exposed, (6) $10.22 million average healthcare breach cost, (7) 742 breaches reported to OCR in 2024, (8) 276,775,457 records exposed in 2024, (9) $12,841,796 OCR penalties in 2025 across 21 cases, (10) $2,134,831 max HIPAA penalty per category per year, (11) $141-$71,162 per violation range. Far exceeds 3."
+    },
+    {
+      "text": "References OWASP guidelines AND HIPAA sections by specific identifier",
+      "passed": true,
+      "evidence": "OWASP: References OWASP HTML5 Security Cheat Sheet, OWASP ASVS V3.2.3, OWASP Top 10:2021 A03 Injection, OWASP Session Management Cheat Sheet, OWASP JSON Web Token Cheat Sheet. HIPAA: References 45 CFR 164.312(a)(1), 164.312(a)(2)(iii), 164.312(b), 164.312(d), plus 2025 NPRM. Also NIST SP 800-63B Section 7.1, NIST SP 800-53r5 SC-23, IETF draft-ietf-oauth-browser-based-apps-26, PCI DSS 4.0 Req 8.2.8."
+    },
+    {
+      "text": "Contains a structured comparison table (e.g., localStorage vs httpOnly cookies vs other token storage)",
+      "passed": true,
+      "evidence": "Contains a detailed 'Attack Surface Comparison' table with 10 attack vectors compared across localStorage JWT, httpOnly Secure Cookie, and BFF Pattern. Also contains Industry Standards Compliance table (10 standards), Quantitative Risk Assessment table, Healthcare Breach Cost Data table, and a Ranking table comparing 4 approaches across 5 criteria."
+    },
+    {
+      "text": "Explicitly states confidence level (percentage or calibrated language)",
+      "passed": true,
+      "evidence": "Overall confidence: 95%. Sub-findings: Finding 1 (OWASP) 97%, Finding 2 (NIST) 97%, Finding 3 (IETF) 95%, Finding 4 (HIPAA) 93%, Finding 5 (NPRM) 85%, Finding 6 (XSS prevalence) 95%. Final recommendation confidence restated as 95%."
+    },
+    {
+      "text": "Addresses at least 1 counterargument (e.g., cases where localStorage might be acceptable)",
+      "passed": true,
+      "evidence": "Addresses 4 detailed counterarguments: (1) 'If XSS is present, httpOnly cookies don't help' -- rebutted with persistent vs ephemeral attack distinction, (2) 'With short-lived JWTs, localStorage risk is minimal' -- rebutted, (3) 'We have strong CSP, so XSS is effectively impossible' -- rebutted with 94% stat, (4) 'This is just a web app pattern many companies use' -- rebutted with healthcare-specific context."
+    },
+    {
+      "text": "Ends with a clear, specific actionable recommendation",
+      "passed": true,
+      "evidence": "Recommendation section provides ranked alternatives: (1) BFF Pattern as primary recommendation, (2) httpOnly Secure Cookie as fallback, (3) In-Memory + httpOnly Cookie Refresh. Includes 9 specific additional controls to implement (CSP, SRI, short token lifetimes, MFA, pentesting, vuln scanning, etc.) and conditions under which the recommendation changes."
+    },
+    {
+      "text": "Shows methodology (search queries, security analysis chain)",
+      "passed": true,
+      "evidence": "Research Decomposition section shows 6 sub-questions in structured table with evidence types and primary sources. Each finding cites specific standards documents with direct quotes. The analysis chain flows from OWASP guidance -> NIST standards -> IETF drafts -> HIPAA regulatory text -> quantitative breach data -> alternatives analysis."
+    }
+  ],
+  "summary": {
+    "passed": 8,
+    "failed": 0,
+    "total": 8,
+    "pass_rate": 1.0
+  }
+}
