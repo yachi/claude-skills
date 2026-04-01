@@ -1,0 +1,16 @@
+{
+  "eval_id": 6,
+  "eval_name": "convergence-assumption-resolution",
+  "prompt": "We're building a real-time collaborative document editor (like Google Docs) for a 50-person company. Should we use CRDTs or Operational Transform? We need offline support, the backend is in Go, and we're a 3-person team. Budget is $0 for infrastructure — everything self-hosted on a single VPS.",
+  "assertions": [
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Assumption audit explicitly lists all assumptions and classifies each as verified, reasonable, or uncertain", "type": "structural"},
+    {"text": "Zero assumptions remain classified as 'uncertain' without follow-up investigation attempt", "type": "qualitative"},
+    {"text": "Contains evidence of iterative refinement: assumptions initially uncertain were researched and reclassified in subsequent rounds", "type": "structural"},
+    {"text": "Contains concrete quantitative data on CRDT vs OT performance (memory, latency, or bandwidth benchmarks)", "type": "quantitative"},
+    {"text": "References specific Go libraries with version numbers and GitHub star counts or download metrics", "type": "quantitative"},
+    {"text": "Addresses the constraint interaction (offline + single VPS + 3-person team) rather than treating constraints independently", "type": "qualitative"},
+    {"text": "Explicitly states confidence level (percentage) with conditions under which recommendation changes", "type": "structural"}
+  ],
+  "notes": "Tests convergence loop: the constraint combination (offline + self-hosted VPS + Go + tiny team) creates assumptions that need verification. The skill should loop to resolve uncertain assumptions rather than leaving them hanging."
+}

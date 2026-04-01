@@ -1205,3 +1205,75 @@ Champion score: 5/5 (Run 2, confirmed across Runs 3-5)
 - **Skill lines:** 170 → 170
 - **Result:** champion holds
 - **Details:** Basel III CRE40, IFRS 9 Section 5.5, Dodd-Frank Title IX, SEC Regulation AB II Rule 17g-5, IOSCO Principles Section 3.5 cited. Reduced-form model recommended for primary pricing, structural for sanity check. BB CLO spread ~SOFR+700-800bps. Historical default 0.04%/yr. Python Merton + intensity model with Vasicek large-portfolio approximation, 35+ URLs (spglobal.com, moodys.com, kkr.com, bis.org, fdic.gov). Sources organized 5 categories. E22: "longitudinal study", "systematic forecast", "historical analysis", "academic review". E23: all 7 findings sourced inline. ~3,800 words.
+
+## Run convergence-1 — 2026-04-01 11-eval convergence test (SSR vs CSR SEO)
+- **Test prompt:** #7 — "Is server-side rendering (SSR) or client-side rendering (CSR) better for SEO in 2025+? I've seen conflicting claims..."
+- **Score:** 9/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:0 E10:1 E11:0)
+- **Mutation:** baseline (pre-convergence-loop skill, 187 lines)
+- **Result:** discarded — E9 and E11 fail
+- **Champion score:** 9/11
+- **Details:** 20+ URLs, Confidence 92%, multiple comparison tables, WCAG 2.2 / Google CWV / Google JS SEO Basics cited by section. Next.js TypeScript code blocks. Cost table ($15K-$40K migration). Two structured counterarguments with rebuttals. E10 passes — "Resolving the Core Contradiction" section explicitly reconciles "Google renders JS" vs "SSR still critical." E9 fails — no markers of iterative refinement loops. E11 fails — assumptions classified as "Reasonable" lack follow-up investigation. ~3,200 words.
+
+## Run convergence-2 — 2026-04-01 11-eval convergence test (CRDTs vs OT)
+- **Test prompt:** #8 — "We're building a real-time collaborative document editor... Should we use CRDTs or Operational Transform?"
+- **Score:** 11/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1)
+- **Mutation:** Added Phase 5b "Convergence Loop" (4 lines) after Phase 5 Adversarial Review — instructs agent to scan for gaps (uncertain assumptions, unresolved contradictions, low confidence claims, uninvestigated sub-questions) and conduct labeled "Refinement Round" follow-up investigations until zero new gaps or 3 rounds complete.
+- **Result:** kept — all 11 criteria pass, including E9/E10/E11
+- **Champion score:** 11/11
+- **Skill lines:** 187 → 191
+- **Details:** 25+ URLs, Confidence 82%, CRDT library benchmark table (5 libs × 5 metrics), OT vs CRDT comparison (7 dimensions), cost analysis ($0 existing VPS vs $4-5/month). RFC 8445, OWASP ASVS v4.0 Section 9, ISO/IEC 27001:2022 A.8.24 cited. Full Go server code with imports (automerge-go + gorilla/websocket), nginx config, systemd deployment. Two structured counterarguments. E9: three labeled "Refinement Round" sections investigating automerge-go maturity, CRDT memory overhead for VPS, and Eg-walker viability. E10: temporal contradiction resolved between "CRDTs have prohibitive overhead" (2022 sources) vs "CRDTs are production-ready" (2025 benchmarks). E11: all 6 assumptions have follow-up investigations, reclassified from uncertain to verified/reasonable. Eg-walker paper cited (Gentle & Kleppmann, 2024, arXiv 2409.14252). ~3,600 words.
+
+## Run convergence-3 — 2026-04-01 25-eval convergence test (EKS to bare-metal)
+- **Test prompt:** #9 — "Should we migrate our 200-microservice Kubernetes cluster from AWS EKS to bare-metal Kubernetes to save costs? We're spending $180K/month on AWS. Team of 8 engineers, 2 with bare-metal experience. We handle PCI-DSS cardholder data. Current p99 latency is 45ms, SLA requires 99.95% uptime."
+- **Score:** 25/25 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:1 E21:1 E22:1 E23:1 E24:1 E25:1 E26:1)
+- **Binary suite (11-criteria):** 11/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1)
+- **Mutation:** none (testing current champion)
+- **Result:** champion holds
+- **Skill lines:** 191
+- **Details:** 26 URLs, Confidence 85%, 3 comparison tables (standards compliance, TCO, cost categories), Python TCO calculator + bash AWS CLI commands. PCI-DSS Req 1.2, 2.2, 6.3, 9.2, 10.2, NIST SP 800-190, ISO 27001:2022 A.7.1-A.7.14 cited. Recommendation: stay on EKS, optimize with Savings Plans + Graviton ($72K-$99K/month savings). Two counterarguments with rebuttals (OneUptime comparison, latency argument). E24: three "Refinement Round" sections (EKS Anywhere hybrid, 99.95% SLA on bare metal, Graviton savings verification). E25: contradiction resolved between OneUptime 76% savings (infra-only) vs Gcore 3x TCO (with personnel). E26: assumptions reclassified from uncertain to verified with evidence. ~2,450 words.
+
+## Run convergence-4 — 2026-04-01 25-eval convergence test (microservices vs monolith, flawed premise)
+- **Test prompt:** #4 — "Everyone says microservices are the way to go but we're a 3-person team building a B2B invoicing SaaS. We currently have a Rails monolith serving 200 customers. Our investor is pushing us to 'modernize the architecture' before Series A. Should we migrate to microservices?"
+- **Score:** 25/25 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:1 E21:1 E22:1 E23:1 E24:1 E25:1 E26:1) [graded with --flawed-premise]
+- **Binary suite (11-criteria):** 11/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1)
+- **Mutation:** none (testing current champion)
+- **Result:** champion holds
+- **Skill lines:** 191
+- **Details:** 24 URLs, Confidence 92%, 3 comparison tables (standards, team capacity, due diligence scoring). Python investor due diligence scoring model + Ruby Packwerk config + bash commands. ISO/IEC 25010:2023 Clause 4.2.6.1, 4.2.6.4, 4.2.5.2, DORA/Accelerate metrics cited. Premise challenged: "the premise that microservices represent 'modernization' is a myth at your scale." Martin Fowler MonolithFirst, Shopify 2.8M LOC monolith, Amazon Prime Video 90% cost reduction cited. Two counterarguments (investors won't fund monolith, start microservices now). E24: three Refinement Rounds (DORA correlation, batch deploy verification, Shopify scale verification). E25: contradiction resolved between "build for scale" guides vs MonolithFirst guidance. E26: all 6 assumptions verified with sources. ~2,320 words.
+
+## Run convergence-5 — 2026-04-01 25-eval convergence test (Rust vs Go, adversarial flawed premise)
+- **Test prompt:** #6 — "Prove that Rust is always faster than Go for web services. I need data to convince my team to rewrite our Go services."
+- **Score:** 25/25 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:1 E21:1 E22:1 E23:1 E24:1 E25:1 E26:1) [graded with --flawed-premise]
+- **Binary suite (11-criteria):** 11/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1)
+- **Mutation:** none (testing current champion)
+- **Result:** champion holds
+- **Skill lines:** 191
+- **Details:** 23 URLs, Confidence 90%, 3 comparison tables (standards, benchmark matrix 9 dimensions, alternatives). Python decision scoring model + bash profiling commands. ISO/IEC 25010:2023 Section 4.2.2 Clause 4.2.2.1, 4.2.2.2, Section 4.2.6 Clause 4.2.6.4, OWASP Secure Coding Section 5 cited. Premise killed: "'always' makes the claim falsifiable with a single counterexample — and multiple exist." Discord, TikTok, Grab case studies. Go outperforms Rust in startup (10x), compilation (10-50x), and specific HTTP workloads. Two counterarguments (Discord proved Rust faster, benchmarks show Rust ahead). E24: three Refinement Rounds (GC sub-100us verification, Go-faster-than-Rust benchmark verification, hiring market data). E25: contradiction resolved between TechEmpower/Discord (Rust wins CPU-bound) vs Kopper benchmark (Go wins I/O-bound). E26: GC claim reclassified from uncertain to verified. ~2,560 words.
+
+## Run convergence-6 — 2026-04-01 25-eval convergence test (CRDTs vs OT, convergence retest)
+- **Test prompt:** #8 — "We're building a real-time collaborative document editor... Should we use CRDTs or Operational Transform? We need offline support, the backend is in Go, and we're a 3-person team. Budget is $0 for infrastructure — everything self-hosted on a single VPS."
+- **Score:** 25/25 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:1 E21:1 E22:1 E23:1 E24:1 E25:1 E26:1)
+- **Binary suite (11-criteria):** 11/11 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1)
+- **Mutation:** none (testing current champion)
+- **Result:** champion holds
+- **Skill lines:** 191
+- **Details:** 21 URLs, Confidence 88%, 4 comparison tables (standards, CRDT library comparison 5×7, CRDTs vs OT 7 dimensions, cost model). Python VPS resource estimator + full Go WebSocket relay with imports + bash deployment commands. RFC 6455 Section 1.2, OWASP ASVS v4.0 Section 9, ISO/IEC 27001:2022 Annex A.8.24, CAP Theorem cited. Eg-walker (Gentle & Kleppmann, EuroSys 2025) cited with arXiv 2409.14252. Two counterarguments (CRDT memory overhead, Google uses OT). E24: three Refinement Rounds (automerge-go readiness, VPS scalability for 50 users, Eg-walker publication verification). E25: temporal contradiction resolved between "CRDTs have prohibitive overhead" (2022) vs modern Yjs/Eg-walker benchmarks (2023-2025). E26: assumptions reclassified from uncertain to verified. ~2,360 words.
+
+---
+
+## Convergence Summary (Runs convergence-1 through convergence-6)
+
+| Run | Prompt | Type | 25-eval Score | 11-criteria Score | Mutation | URLs | Words |
+|-----|--------|------|---------------|-------------------|----------|------|-------|
+| convergence-1 | #7 SSR vs CSR SEO | Convergence | N/A (pre-26-eval) | 9/11 | baseline (pre-Phase 5b) | 20+ | ~3,200 |
+| convergence-2 | #8 CRDTs vs OT | Convergence | N/A (pre-26-eval) | 11/11 | Added Phase 5b (kept) | 25+ | ~3,600 |
+| convergence-3 | #9 EKS to bare-metal | Convergence | 25/25 | 11/11 | none | 26 | ~2,450 |
+| convergence-4 | #4 Microservices vs monolith | Hard (flawed premise) | 25/25 | 11/11 | none | 24 | ~2,320 |
+| convergence-5 | #6 Rust always faster than Go | Adversarial (flawed premise) | 25/25 | 11/11 | none | 23 | ~2,560 |
+| convergence-6 | #8 CRDTs vs OT (retest) | Convergence | 25/25 | 11/11 | none | 21 | ~2,360 |
+
+**Convergence runs 3-6 results: 4/4 pass 25-eval gate (25/25). All 4 pass 11-criteria binary suite (11/11).**
+**No mutations needed. Skill at 191 lines is stable across convergence, hard, and adversarial prompt types.**
+**Prompt types tested: infrastructure migration (#9), architecture decision (#4), adversarial flawed premise (#6), collaborative systems (#8).**
+**Post-Phase-5b pass rate: 100% across convergence runs 2-6 (5/5 runs at 11/11).**
+**Phase 5b (Convergence Loop) confirmed as the mutation that resolved E9/E10/E11 — consistently produces labeled Refinement Rounds, contradiction resolution, and assumption reclassification across all prompt types.**

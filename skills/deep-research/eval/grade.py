@@ -155,6 +155,47 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     else:
         r['E23_findings_all_sourced'] = True  # no findings section = auto-pass
 
+    # ═══ TIER 6: Convergence Loop (iterative refinement) ═══
+
+    # E24: Evidence of iterative refinement — gap analysis or refinement rounds documented
+    refinement_markers = re.findall(
+        r'(?i)(refinement round|iteration \d|round \d|follow.up investigation|'
+        r'gap analysis|additional research|upon further investigation|'
+        r'revisiting|re-investigat|second pass|deeper investigation|'
+        r'initial research .{0,30} additional|updating research plan|'
+        r'emerged during|surfaced during|discovered during research)',
+        content
+    )
+    r['E24_iterative_refinement'] = len(refinement_markers) >= 1
+
+    # E25: Contradiction resolution — identifies conflicting sources and resolves them
+    contradiction_markers = re.findall(
+        r'(?i)(contradict|conflict(?:ing|s)|disagree|inconsistent|'
+        r'source.{0,20}(?:claims?|says?|shows?|argues?).{0,40}(?:but|however|whereas|while)|'
+        r'(?:however|but|whereas).{0,40}(?:another|other|different)\s+(?:source|study|report|benchmark))',
+        content
+    )
+    r['E25_contradiction_resolution'] = len(contradiction_markers) >= 1
+
+    # E26: Assumption audit completeness — no uncertain assumptions left uninvestigated
+    assumption_section = re.search(r'(?i)##[#]?\s*Assumption[s]?\s*(?:Audit|Review)?[\s\S]*?(?=\n##[^#]|\Z)', content)
+    if assumption_section:
+        uncertain_count = len(re.findall(r'(?i)\buncertain\b', assumption_section.group()))
+        investigated = len(re.findall(
+            r'(?i)uncertain.{0,100}(?:investigated|researched|verified|resolved|could not verify|remains)',
+            assumption_section.group()
+        ))
+        # Pass if no uncertain assumptions, or if uncertain ones have follow-up notes
+        r['E26_assumptions_investigated'] = uncertain_count == 0 or investigated >= uncertain_count
+    else:
+        # Fallback: check whole doc for reclassification evidence (assumptions resolved before audit table)
+        reclassified = re.findall(
+            r'(?i)(?:moved from|reclassified.*from).{0,30}uncertain.{0,30}(?:to|→).{0,30}(?:verified|reasonable|confirmed)',
+            content
+        )
+        has_audit = bool(re.search(r'(?i)assumption', content))
+        r['E26_assumptions_investigated'] = len(reclassified) >= 1 or not has_audit
+
     # E19: Executive summary is self-contained (has answer + confidence in first 3 sentences)
     exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n##|\Z)', content)
     if exec_summary:
@@ -189,6 +230,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         ('TIER 3 (rigor)',      ('E15_','E16_')),
         ('TIER 4 (ground truth)', ('E17_','E18_','E19_','E20_')),
         ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
+        ('TIER 6 (convergence)', ('E24_','E25_','E26_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}
         if not tier_evals:

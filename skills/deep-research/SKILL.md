@@ -104,6 +104,10 @@ Before finalizing, conduct a structured devil's advocate pass:
 
 This is not theater. If the adversarial review reveals a genuine weakness, revise your conclusions. The goal is truth, not persuasion.
 
+### Phase 5b: Convergence Loop
+
+After the adversarial review, run a gap scan. Check for: (1) assumptions classified "uncertain" or "reasonable" without a source URL, (2) unresolved contradictions between sources, (3) claims with confidence below 80%, (4) emergent sub-questions surfaced during research that were never investigated. For each gap found, conduct a **follow-up investigation** — WebSearch for additional evidence, then update findings, assumption classifications, or confidence levels. Label each follow-up clearly (e.g., "Refinement Round 1: investigated [gap]"). Repeat until a scan surfaces zero new gaps or you have completed 3 rounds. This phase is what separates surface-level research from convergent analysis — do not skip it.
+
 ### Phase 6: Practitioner Check
 
 Before writing the final deliverable, ask: **"What would a practitioner who lives this daily add that my standards-focused analysis missed?"** Search for and include where relevant:
