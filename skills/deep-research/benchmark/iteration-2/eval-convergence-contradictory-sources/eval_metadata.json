@@ -1,0 +1,16 @@
+{
+  "eval_id": 5,
+  "eval_name": "convergence-contradictory-sources",
+  "prompt": "Is server-side rendering (SSR) or client-side rendering (CSR) better for SEO in 2025+? I've seen conflicting claims — some say Google now fully renders JavaScript SPAs, others say SSR is still critical. I need a definitive, evidence-based answer with current data, not opinions from 2020.",
+  "assertions": [
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Explicitly identifies and documents contradictions between sources (e.g., 'Source A claims X, but Source B shows Y')", "type": "qualitative"},
+    {"text": "Resolves contradictions with additional evidence rather than leaving them unresolved", "type": "qualitative"},
+    {"text": "Contains evidence of iterative refinement: gap analysis, refinement rounds, or explicit re-investigation of initially conflicting claims", "type": "structural"},
+    {"text": "References at least 1 specific industry standard or W3C/Google guideline by section", "type": "quantitative"},
+    {"text": "Contains a structured comparison table or matrix", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage) and notes where evidence was initially conflicting", "type": "structural"},
+    {"text": "Final recommendation accounts for the resolved contradictions rather than ignoring them", "type": "qualitative"}
+  ],
+  "notes": "Tests convergence loop: initial research will find contradictory claims about Google's JS rendering capabilities. The skill should self-loop to investigate and resolve these contradictions rather than presenting them unresolved."
+}

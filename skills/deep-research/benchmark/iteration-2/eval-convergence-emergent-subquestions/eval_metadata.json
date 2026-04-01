@@ -1,0 +1,16 @@
+{
+  "eval_id": 7,
+  "eval_name": "convergence-emergent-subquestions",
+  "prompt": "Should we migrate our 200-microservice Kubernetes cluster from AWS EKS to bare-metal Kubernetes to save costs? We're spending $180K/month on AWS. Team of 8 engineers, 2 with bare-metal experience. We handle PCI-DSS cardholder data. Current p99 latency is 45ms, SLA requires 99.95% uptime.",
+  "assertions": [
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Research plan was updated during investigation — new sub-questions were added beyond the initial decomposition", "type": "structural"},
+    {"text": "Contains evidence of iterative refinement: emergent questions discovered during research were investigated in follow-up rounds", "type": "structural"},
+    {"text": "PCI-DSS compliance analysis references specific sections (e.g., Requirement 6, Requirement 10) not just the standard name", "type": "quantitative"},
+    {"text": "Contains detailed cost comparison with TCO (hardware, colo, staffing, migration, opportunity cost) not just compute costs", "type": "quantitative"},
+    {"text": "Addresses failure modes: what happens if bare-metal migration fails mid-way", "type": "qualitative"},
+    {"text": "Contains a structured multi-dimensional comparison table", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage) and notes which findings required additional investigation rounds", "type": "structural"}
+  ],
+  "notes": "Tests convergence loop: initial research will surface emergent sub-questions (PCI audit implications, staffing gap, migration timeline, hybrid strategies) that weren't in the original decomposition. The skill should add these to the research plan and investigate them rather than ignoring emergent complexity."
+}
