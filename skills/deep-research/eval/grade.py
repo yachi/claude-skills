@@ -67,7 +67,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
                 real_code += 1
     r['E12_real_code'] = real_code >= 1 if code_blocks else True
 
-    rec = re.search(r'(?i)## Recommendation[\s\S]*?(?=\n##|\Z)', content)
+    rec = re.search(r'(?i)## Recommendation[\s\S]*?(?=\n## [^#]|\Z)', content)
     if rec:
         conds = re.findall(r'(?i)(?:if|when|unless|condition|change|switch|pivot|reconsider|revisit)', rec.group())
         r['E13_change_conditions'] = len(conds) >= 2
@@ -79,10 +79,10 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
 
     # ═══ TIER 3: Rigor ═══
 
-    findings = re.search(r'(?i)## Key Findings[\s\S]*?(?=\n##|\Z)', content)
+    findings = re.search(r'(?i)## Key Findings[\s\S]*?(?=\n## [^#]|\Z)', content)
     r['E15_findings_verified'] = '[unverified]' not in (findings.group().lower() if findings else '')
 
-    sources = re.search(r'(?i)## Sources[\s\S]*?(?=\n##|\Z)', content)
+    sources = re.search(r'(?i)## Sources[\s\S]*?(?=\n## [^#]|\Z)', content)
     if sources:
         r['E16_sources_organized'] = bool(re.search(r'(?:\*\*[^*]+\*\*:?|###\s)', sources.group()))
     else:
@@ -197,7 +197,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r['E26_assumptions_investigated'] = len(reclassified) >= 1 or not has_audit
 
     # E19: Executive summary is self-contained (has answer + confidence in first 3 sentences)
-    exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n##|\Z)', content)
+    exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n## [^#]|\Z)', content)
     if exec_summary:
         summary_text = exec_summary.group(1).strip()
         has_answer = len(summary_text) > 50  # not trivially short
@@ -207,7 +207,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r['E19_exec_summary_complete'] = False
 
     # E20: Alternatives section exists and has 2+ options with data
-    alts = re.search(r'(?i)## Alternatives[\s\S]*?(?=\n##|\Z)', content)
+    alts = re.search(r'(?i)## Alternatives[\s\S]*?(?=\n## [^#]|\Z)', content)
     if alts:
         alt_text = alts.group()
         alt_options = re.findall(r'(?:###\s|\d+\.\s\*\*|\*\*\d+\.)', alt_text)
@@ -271,12 +271,13 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     r['E30_artifact_specificity'] = len(artifacts) >= 3
 
     # E31: Recommendation validation — output shows evidence of validating its recommendation
-    # (testing code, computing an example, checking a registry, citing a precedent/case study)
+    # (testing code, computing an example, checking a registry, citing precedent/case study/production use)
     validation_markers = re.findall(
         r'(?i)((?:tested|confirmed|verified|validated|computed|calculated|measured|benchmarked|checked|demonstrated).{0,60}'
         r'(?:successfully|works|passes|started|running|output|result|returns|shows|yields|produces|gives)|'
-        r'(?:precedent|case study|real[\s-]world|in practice|deployed at|used by)\s|'
-        r'(?:example|calculation|computation):\s)',
+        r'(?:precedent|case study|real[\s-]world|in practice|deployed at|used by|in production|production[\s-]ready)\s|'
+        r'(?:example|calculation|computation):\s|'
+        r'(?:\d+\+?\s+)?(?:customer|client|user|company|enterprise)s?\s+(?:use|using|report|adopted|rely))',
         content
     )
     r['E31_recommendation_validated'] = len(validation_markers) >= 1
