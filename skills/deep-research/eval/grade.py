@@ -264,11 +264,14 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r'/(?:etc|home|usr|var|opt|Users|tmp|app|srv)[\w/._-]+|'      # absolute file paths
         r'~\/[\w/._-]+|'                                              # home-relative paths
         r'(?:package|config|docker|requirements|Cargo|go)\.\w+|'      # config files
+        r'\w+\.(?:py|js|ts|json|yaml|yml|toml|sql|sh)\b|'            # source files
         r'(?:Form|Annex|Schedule|Appendix|Exhibit)\s+[A-Z0-9]+[\.\d]*|'  # regulatory artifacts
-        r'(?:Step|Phase|Year|Week|Month|Stage)\s+\d+|'                # sequenced steps
+        r'(?:Step|Phase|Year|Weeks?|Month|Stage)\s+\d+|'             # sequenced steps
         r'(?:Template|Checklist|Playbook|Runbook)\b|'                 # operational docs
         r'(?:pip|npm|brew|cargo|apt|mise|nvm)\s+install|'             # install commands
-        r'(?:v|version)\s*\d+[\.\d]+\b'                               # version numbers
+        r'(?:v|version)\s*\d+[\.\d]+\b|'                              # version numbers
+        r'https?://api\.[^\s)]+|'                                      # API endpoint URLs
+        r'(?:POST|GET|PUT|DELETE|PATCH)\s+/\w+'                       # REST endpoints
         r')',
         impl_text
     )
@@ -291,17 +294,22 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r'(?i)((?:if|when|should)\s+.{0,30}(?:assumption|premise).{0,30}(?:wrong|incorrect|change|break|fail|invalid)|'
         r'sensiti(?:vity|ve)\s+analysis|'
         r'recommendation\s+(?:changes?|breaks?|holds?)\s+(?:if|when)|'
-        r'(?:robust|resilient|brittle)\s+(?:to|against|under))',
+        r'(?:robust|resilient|brittle)\s+(?:to|against|under)|'
+        r'if.{0,40}(?:wrong|fails?|proves?\s+(?:false|incorrect)).{0,30}(?:switch|pivot|change|reconsider|fall\s*back|defer)|'
+        r'(?:switch|pivot|change)\s+to\s+.{3,30}\s+if\b)',
         content
     )
     r['E32_sensitivity_analysis'] = len(sensitivity_markers) >= 1
 
-    # E33: Source credibility — at least 1 explicit primary-source label
+    # E33: Source credibility — at least 1 explicit source-type label
     credibility_markers = re.findall(
-        r'(?i)(primary source|first-party|official doc(?:umentation|s)?|'
+        r'(?i)(primary source|first[\s-]party|official doc(?:umentation|s)?|'
         r'peer[\s-]reviewed|registry\s+(?:data|entry|record)|'
-        r'vendor[\s-](?:provided|supplied|originated|documentation)|'
-        r'secondary source|third[\s-]party)',
+        r'vendor[\s-](?:provided|supplied|originated|documentation|benchmark|claim)|'
+        r'secondary source|third[\s-]party|'
+        r'regulatory text|standards body|government\s+(?:source|data|report)|'
+        r'directly observed|independently verified|'
+        r'\[(?:low|medium|high)\s+confidence\])',
         content
     )
     r['E33_source_credibility_labeled'] = len(credibility_markers) >= 1
