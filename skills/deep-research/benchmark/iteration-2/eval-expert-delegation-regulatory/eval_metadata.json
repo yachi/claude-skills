@@ -1,0 +1,16 @@
+{
+  "eval_id": 10,
+  "eval_name": "expert-delegation-regulatory",
+  "prompt": "Our SaaS company (B2B, 500 enterprise customers, $20M ARR) stores customer data in US-East AWS. We're expanding to Japan, Germany, and Brazil. Each country has different data residency requirements (APPI, BDSG/GDPR, LGPD). We need to architect a multi-region data strategy that satisfies all regulators while keeping operational costs under $50K/month additional. Current stack: Python/Django, PostgreSQL, Redis, S3. Should we use AWS region replication, a multi-cloud approach, or a CDN-edge architecture?",
+  "assertions": [
+    {"text": "Research was parallelized across multiple domain experts or subagents (e.g., Japan APPI expert, EU GDPR/BDSG expert, Brazil LGPD expert, cloud architecture expert)", "type": "structural"},
+    {"text": "Contains at least 3 distinct regulatory perspectives with jurisdiction-specific analysis (not generic 'data residency' advice)", "type": "structural"},
+    {"text": "Each jurisdiction analysis references specific legal provisions (APPI articles, BDSG sections, LGPD articles) not just the law name", "type": "quantitative"},
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "Contains a structured comparison table of the 3 architectural approaches", "type": "structural"},
+    {"text": "Contains cost analysis with per-region breakdown and total under $50K/month constraint", "type": "quantitative"},
+    {"text": "Explicitly states confidence level (percentage)", "type": "structural"},
+    {"text": "Contains adversarial counterarguments for the recommended approach", "type": "qualitative"}
+  ],
+  "notes": "Tests expert delegation on multi-jurisdiction regulatory research. Each jurisdiction requires specialized knowledge (Japanese privacy law, German federal data protection, Brazilian LGPD). A single-threaded approach would produce shallow analysis. The skill should delegate jurisdiction-specific research to expert agents."
+}

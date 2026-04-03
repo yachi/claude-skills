@@ -1,0 +1,16 @@
+{
+  "eval_id": 9,
+  "eval_name": "expert-delegation-cross-domain",
+  "prompt": "We're designing a telemedicine platform for rural Sub-Saharan Africa. Must work on 2G/3G networks, handle patient data under GDPR (we're EU-based), Kenya's Data Protection Act, and Nigeria's NDPR. Needs offline-first capability, integration with national health ID systems, and support for community health workers with basic smartphones. Tech decision: React Native vs Flutter vs PWA. Budget: $200K for MVP. Team of 4 developers, none with African market experience.",
+  "assertions": [
+    {"text": "Research was parallelized across multiple domain experts or subagents (e.g., UX/mobile, regulatory/privacy, infrastructure/networking, healthcare/HIS experts)", "type": "structural"},
+    {"text": "Contains at least 4 distinct domain perspectives explicitly identified (e.g., mobile UX, regulatory, network infrastructure, healthcare informatics)", "type": "structural"},
+    {"text": "Addresses the unique constraint intersection (2G networks + offline-first + multi-country regulation + health data) rather than treating each constraint independently", "type": "qualitative"},
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "References specific regulatory sections from at least 2 of the 3 jurisdictions (GDPR articles, Kenya DPA sections, Nigeria NDPR provisions)", "type": "quantitative"},
+    {"text": "Contains a structured comparison table or matrix", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage)", "type": "structural"},
+    {"text": "Contains implementation guidance with specific tools, libraries, or frameworks named with versions", "type": "structural"}
+  ],
+  "notes": "Tests expert delegation on a 4+ domain problem (mobile, regulatory, networking, healthcare). Single-threaded research would miss critical cross-domain interactions. The skill should spawn specialized agents for each domain and synthesize their findings."
+}

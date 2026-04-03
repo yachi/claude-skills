@@ -34,7 +34,7 @@ Do this decomposition explicitly — write it out so the user can see your resea
 
 **Premise validation (kill switch):** Identify the core premise. Quick-search to verify it holds before investing in all phases. If it doesn't, pivot immediately and tell the user. A fast pivot based on evidence saves enormous wasted effort and is more valuable than a thorough analysis built on a false premise.
 
-**Multi-perspective framing:** For each sub-question, consider it from at least 2 different stakeholder viewpoints. Different perspectives surface contradictions and blind spots that single-angle research misses.
+**Multi-perspective framing:** For each sub-question, consider it from at least 2 different stakeholder viewpoints. When a question spans 3+ domains (e.g., regulatory + technical + financial), structure your analysis with explicitly labeled domain perspectives (e.g., "### Regulatory Analysis", "### Technical Assessment", "### Financial Perspective"). Each perspective must contribute unique findings. In the final synthesis, analyze how constraints from different domains interact — tensions, compounding effects, and cross-cutting requirements that only emerge when perspectives are combined.
 
 ### Phase 2: Multi-Source Investigation
 

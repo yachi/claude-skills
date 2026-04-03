@@ -1,0 +1,16 @@
+{
+  "eval_id": 8,
+  "eval_name": "expert-delegation-fintech",
+  "prompt": "Our fintech startup is building a cross-border payment system handling EUR/USD/GBP corridors. We need to comply with PSD2 (EU), FinCEN MSB registration (US), and FCA authorization (UK) simultaneously. Tech stack is Go + PostgreSQL. Team of 6, launching in 9 months. Budget: $500K. Should we build on top of an existing BaaS provider (Stripe Treasury, Column, Modulr) or build our own ledger with direct banking integrations?",
+  "assertions": [
+    {"text": "Research was parallelized across multiple domain experts or subagents (e.g., regulatory, technical, financial experts investigating concurrently)", "type": "structural"},
+    {"text": "Contains at least 3 distinct domain perspectives explicitly identified (e.g., regulatory/compliance, technical/architecture, financial/cost)", "type": "structural"},
+    {"text": "Each domain perspective contributes unique findings not duplicated across perspectives", "type": "qualitative"},
+    {"text": "Contains at least 15 unique verifiable source URLs", "type": "quantitative"},
+    {"text": "References specific regulatory sections across all 3 jurisdictions (PSD2 articles, FinCEN rules, FCA handbook sections)", "type": "quantitative"},
+    {"text": "Contains a structured comparison table with multi-dimensional analysis", "type": "structural"},
+    {"text": "Explicitly states confidence level (percentage)", "type": "structural"},
+    {"text": "Contains cost/TCO analysis with monetary figures", "type": "quantitative"}
+  ],
+  "notes": "Tests expert delegation: this cross-domain question (regulatory + technical + financial) should trigger spawning of domain-specific expert agents researching in parallel. The output should show evidence of multi-perspective synthesis."
+}
