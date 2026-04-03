@@ -106,7 +106,9 @@ This is not theater. If the adversarial review reveals a genuine weakness, revis
 
 ### Phase 5b: Convergence Loop
 
-After the adversarial review, run a gap scan. Check for: (1) assumptions classified "uncertain" or "reasonable" without a source URL, (2) unresolved contradictions between sources, (3) claims with confidence below 80%, (4) emergent sub-questions surfaced during research that were never investigated. For each gap found, conduct a **follow-up investigation** — WebSearch for additional evidence, then update findings, assumption classifications, or confidence levels. Label each follow-up clearly (e.g., "Refinement Round 1: investigated [gap]"). Repeat until a scan surfaces zero new gaps or you have completed 3 rounds. This phase is what separates surface-level research from convergent analysis — do not skip it.
+After the adversarial review, run a gap scan. Check for: (1) assumptions classified "uncertain" or "reasonable" without a source URL, (2) unresolved contradictions between sources, (3) claims with confidence below 80%, (4) emergent sub-questions surfaced during research that were never investigated. For each gap found, conduct a **follow-up investigation** — WebSearch for additional evidence, then update findings, assumption classifications, or confidence levels. Repeat until a scan surfaces zero new gaps or you have completed 3 rounds. This phase is what separates surface-level research from convergent analysis — do not skip it.
+
+**Visible in output:** Include a brief "Refinement Round N" note in the Adversarial Review section for each round, stating what gap was investigated and how findings changed (e.g., "Refinement Round 1: investigated [gap] — reclassified assumption X from uncertain to verified [source]"). When sources contradict each other, state both positions explicitly and which you weigh higher with justification (e.g., "Source A claims X, however Source B shows Y — we weigh B higher because [reason]").
 
 ### Phase 6: Practitioner Check
 
