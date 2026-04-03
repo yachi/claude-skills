@@ -239,13 +239,17 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     )
     r['E28_constraint_interaction'] = len(interaction_markers) >= 2
 
-    # E29: Jurisdiction/domain-specific depth — 3+ distinct regulatory frameworks cited
-    jurisdiction_refs = {m.upper().replace(' ', '') for m in re.findall(
+    # E29: Multi-framework depth — 3+ distinct regulatory/standards frameworks cited
+    framework_refs = {m.upper().replace(' ', '') for m in re.findall(
         r'(?i)(GDPR|PSD2|APPI|LGPD|BDSG|NDPR|HIPAA|PCI.DSS|SOX|MiCA|DORA|FCA|FinCEN|'
-        r'Kenya.{0,10}(?:Data|DPA)|Nigeria.{0,10}(?:Data|NDPR)|Basel|Dodd.Frank|MiFID|CCPA|PIPL)',
+        r'Kenya.{0,10}(?:Data|DPA)|Nigeria.{0,10}(?:Data|NDPR)|Basel|Dodd.Frank|MiFID|CCPA|PIPL|'
+        r'ViDA|HMRC|MTD|Peppol|EMIR|SFDR|NIS2|CRA|CSRD|AI.Act|DSA|DMA|'
+        r'NIST|OWASP|ISO\s*\d+|IEC\s*\d+|EN\s*\d+|RFC\s*\d+|'
+        r'ERISA|FIFRA|EAR|ITAR|TSCA|CPSC|OSHA|EPA|FDA|FTC|SEC|'
+        r'Cartagena|CBD|UNCLOS|ILO|UNDRIP|WHO|WTO|WIPO)',
         content
     )}
-    r['E29_multi_jurisdiction_depth'] = len(jurisdiction_refs) >= 3
+    r['E29_multi_framework_depth'] = len(framework_refs) >= 3
 
     # ═══ TIER 8: Actionability & Grounding (environment-aware implementation) ═══
 
@@ -336,7 +340,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         ('TIER 4 (ground truth)', ('E17_','E18_','E19_','E20_')),
         ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
         ('TIER 6 (convergence)', ('E24_','E25_','E26_')),
-        ('TIER 7 (expert delegation)', ('E27_','E28_','E29_')),
+        ('TIER 7 (multi-framework)', ('E27_','E28_','E29_')),
         ('TIER 8 (actionability)', ('E30_','E31_','E32_','E33_','E34_','E35_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}

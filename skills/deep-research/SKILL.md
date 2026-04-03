@@ -173,6 +173,11 @@ Use collapsible sections for detailed assumption audits and failure mode analysi
 
 Adapt this structure to the topic — not every section applies to every question. But never skip: Executive Summary, Quantitative Analysis, Industry Standards, Implementation Guidance, Adversarial Review, and Sources.
 
+**Mandatory output elements** (include in every report regardless of topic):
+- **Scope statement**: State what this analysis does NOT cover (1-2 sentences, e.g., "This analysis does not cover X, Y, or Z")
+- **Sensitivity check**: In the Recommendation section, state at least one condition under which the recommendation would change (e.g., "If [assumption] proves wrong, switch to [alternative]")
+- **Evidence hierarchy**: For at least one key finding, explicitly label the evidence type (e.g., "peer-reviewed study", "vendor benchmark [low confidence]", "case study")
+
 ## Confidence Calibration
 
 State your confidence level (0-100%) for each major claim and for the overall conclusion. Calibrate honestly:
