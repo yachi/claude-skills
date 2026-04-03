@@ -51,13 +51,37 @@ Read the research output file provided in $ARGUMENTS.
 - 2: Vague recommendations without implementation path
 - 1: Theoretical analysis with no practical application
 
+### C6: Contextual Specificity (does it account for the user's stated constraints?)
+- 5: Recommendation is tailored to user's specific constraints (budget, scale, timeline, toolchain, jurisdiction) — not generic advice anyone could give
+- 4: Addresses most stated constraints; minor gaps in tailoring
+- 3: Acknowledges constraints but advice could apply to a different scale/budget/context with minimal changes
+- 2: Generic advice with user's numbers plugged in — no real tailoring
+- 1: One-size-fits-all answer that ignores the user's stated situation
+
+### C7: Citation Faithfulness (do sources actually support the claims?)
+- 5: Every checked citation accurately represents what the source says — no misquotation or cherry-picking
+- 4: Minor paraphrasing differences that don't affect conclusions
+- 3: 1-2 citations where the source says something subtly different from what's claimed
+- 2: Multiple citations where the source doesn't clearly support the specific claim
+- 1: Citations are decorative — URLs exist but don't support the claims they're attached to
+
+**How to check:** Pick 3 claims that have inline citations. WebFetch each URL. Compare what the source actually says to what the report claims it says.
+
+### C8: Logical Chain (claim → evidence → inference)
+- 5: Every recommendation traces back through an explicit reasoning chain to cited evidence
+- 4: Main recommendation has clear chain; minor points lack explicit links
+- 3: Conclusions are reasonable but some rely on implicit reasoning the reader must fill in
+- 2: Significant inferential leaps — conclusions don't follow directly from evidence
+- 1: Conclusions appear disconnected from cited evidence
+
 ## Process
 
 1. Read the full output
 2. For C1: Pick 3 claims and verify them via WebSearch
-3. Score each criterion 1-5 with a 1-sentence justification
-4. Compute total (max 25)
-5. Flag any specific errors, hallucinations, or dangerous advice found
+3. For C7: Pick 3 cited claims, WebFetch the URLs, compare source content to report claims
+4. Score each criterion 1-5 with a 1-sentence justification
+5. Compute total (max 40)
+6. Flag any specific errors, hallucinations, or dangerous advice found
 
 ## Output Format
 
@@ -71,12 +95,20 @@ Read the research output file provided in $ARGUMENTS.
 | C3 Completeness | X/5 | [one sentence] |
 | C4 Honesty | X/5 | [one sentence] |
 | C5 Actionability | X/5 | [one sentence] |
-| **TOTAL** | **X/25** | |
+| C6 Environment Grounding | X/5 | [one sentence] |
+| C7 Citation Faithfulness | X/5 | [one sentence] |
+| C8 Logical Chain | X/5 | [one sentence] |
+| **TOTAL** | **X/40** | |
 
 ### Fact-Check Details
 - Claim 1: "[quote]" — Verified: [YES/NO] — [what the source actually says]
 - Claim 2: "[quote]" — Verified: [YES/NO] — [what the source actually says]
 - Claim 3: "[quote]" — Verified: [YES/NO] — [what the source actually says]
+
+### Citation Faithfulness Details
+- Citation 1: "[claim]" cites [URL] — Faithful: [YES/NO/PARTIAL] — [what the source actually says]
+- Citation 2: "[claim]" cites [URL] — Faithful: [YES/NO/PARTIAL] — [what the source actually says]
+- Citation 3: "[claim]" cites [URL] — Faithful: [YES/NO/PARTIAL] — [what the source actually says]
 
 ### Critical Issues (if any)
 [List any errors, hallucinations, or dangerous advice]
@@ -87,7 +119,7 @@ Read the research output file provided in $ARGUMENTS.
 
 ## Scoring Thresholds
 
-- **23-25/25**: Publication-quality research. Ready for decision-making.
-- **20-22/25**: Strong research with minor gaps. Usable with caveats.
-- **15-19/25**: Needs revision. Specific issues identified above.
-- **Below 15/25**: Unreliable. Do not act on without major rework.
+- **36-40/40**: Publication-quality research. Ready for decision-making.
+- **30-35/40**: Strong research with minor gaps. Usable with caveats.
+- **24-29/40**: Needs revision. Specific issues identified above.
+- **Below 24/40**: Unreliable. Do not act on without major rework.

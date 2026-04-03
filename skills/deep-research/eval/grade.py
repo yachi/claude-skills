@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Grade /dr skill outputs — 23 binary evals across 6 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
+"""Grade /dr skill outputs — 35 binary evals across 9 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
 
 import re, sys, subprocess, random
 
@@ -247,6 +247,79 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     )}
     r['E29_multi_jurisdiction_depth'] = len(jurisdiction_refs) >= 3
 
+    # ═══ TIER 8: Actionability & Grounding (environment-aware implementation) ═══
+
+    # E30: Artifact specificity — Implementation Guidance names specific actionable artifacts
+    # (file paths, form numbers, tool names, regulatory bodies, sequenced steps, templates)
+    # Generic across domains: a pharma report names "FDA Form 1571", a devops report names
+    # "~/.tool-versions", a legal report names "Annex III risk assessment dossier"
+    impl_sections = re.split(r'\n(?=## )', content)
+    impl_text = next((s for s in impl_sections if 'Implementation' in s.split('\n')[0]), content)
+    artifacts = re.findall(
+        r'(?i)('
+        r'/(?:etc|home|usr|var|opt|Users|tmp|app|srv)[\w/._-]+|'      # absolute file paths
+        r'~\/[\w/._-]+|'                                              # home-relative paths
+        r'(?:package|config|docker|requirements|Cargo|go)\.\w+|'      # config files
+        r'(?:Form|Annex|Schedule|Appendix|Exhibit)\s+[A-Z0-9]+[\.\d]*|'  # regulatory artifacts
+        r'(?:Step|Phase|Year|Week|Month|Stage)\s+\d+|'                # sequenced steps
+        r'(?:Template|Checklist|Playbook|Runbook)\b|'                 # operational docs
+        r'(?:pip|npm|brew|cargo|apt|mise|nvm)\s+install|'             # install commands
+        r'(?:v|version)\s*\d+[\.\d]+\b'                               # version numbers
+        r')',
+        impl_text
+    )
+    r['E30_artifact_specificity'] = len(artifacts) >= 3
+
+    # E31: Recommendation validation — output shows evidence of validating its recommendation
+    # (testing code, computing an example, checking a registry, citing a precedent/case study)
+    validation_markers = re.findall(
+        r'(?i)((?:tested|confirmed|verified|validated|computed|calculated|measured|benchmarked|checked|demonstrated).{0,60}'
+        r'(?:successfully|works|passes|started|running|output|result|returns|shows|yields|produces|gives)|'
+        r'(?:precedent|case study|real[\s-]world|in practice|deployed at|used by)\s|'
+        r'(?:example|calculation|computation):\s)',
+        content
+    )
+    r['E31_recommendation_validated'] = len(validation_markers) >= 1
+
+    # E32: Sensitivity analysis — recommendation stress-tested against assumptions
+    sensitivity_markers = re.findall(
+        r'(?i)((?:if|when|should)\s+.{0,30}(?:assumption|premise).{0,30}(?:wrong|incorrect|change|break|fail|invalid)|'
+        r'sensiti(?:vity|ve)\s+analysis|'
+        r'recommendation\s+(?:changes?|breaks?|holds?)\s+(?:if|when)|'
+        r'(?:robust|resilient|brittle)\s+(?:to|against|under))',
+        content
+    )
+    r['E32_sensitivity_analysis'] = len(sensitivity_markers) >= 1
+
+    # E33: Source credibility — at least 1 explicit primary-source label
+    credibility_markers = re.findall(
+        r'(?i)(primary source|first-party|official doc(?:umentation|s)?|'
+        r'peer[\s-]reviewed|registry\s+(?:data|entry|record)|'
+        r'vendor[\s-](?:provided|supplied|originated|documentation)|'
+        r'secondary source|third[\s-]party)',
+        content
+    )
+    r['E33_source_credibility_labeled'] = len(credibility_markers) >= 1
+
+    # E34: Imprecision reporting — sample sizes, confidence intervals, or margins of error
+    precision_markers = re.findall(
+        r'(?i)(n\s*=\s*[\d,]+|sample\s+(?:size|of)\s+[\d,]+|'
+        r'confidence\s+interval|margin\s+of\s+error|±\s*[\d.]+|'
+        r'standard\s+deviation|std\.?\s*dev|p\s*[<>=]\s*0?\.\d+|'
+        r'\d+\s*%\s*CI\b)',
+        content
+    )
+    r['E34_imprecision_reported'] = len(precision_markers) >= 1
+
+    # E35: Scope boundaries — explicit out-of-scope statement
+    scope_markers = re.findall(
+        r'(?i)(out[\s-]of[\s-]scope|(?:does|do)\s+not\s+(?:cover|address|evaluate|consider)|'
+        r'beyond\s+(?:the\s+)?scope|excluded?\s+from\s+(?:this\s+)?analysis|'
+        r'not\s+(?:included|covered)\s+(?:in|here)|scope\s+(?:of|for)\s+this)',
+        content
+    )
+    r['E35_scope_boundaries'] = len(scope_markers) >= 1
+
     # ═══ Report ═══
     # Filter out None (skipped) evals
     active = {k: v for k, v in r.items() if v is not None}
@@ -263,6 +336,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
         ('TIER 6 (convergence)', ('E24_','E25_','E26_')),
         ('TIER 7 (expert delegation)', ('E27_','E28_','E29_')),
+        ('TIER 8 (actionability)', ('E30_','E31_','E32_','E33_','E34_','E35_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}
         if not tier_evals:
