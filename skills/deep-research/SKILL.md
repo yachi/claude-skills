@@ -106,7 +106,9 @@ This is not theater. If the adversarial review reveals a genuine weakness, revis
 
 ### Phase 5b: Convergence Loop
 
-After the adversarial review, run a gap scan. Check for: (1) assumptions classified "uncertain" or "reasonable" without a source URL, (2) unresolved contradictions between sources, (3) claims with confidence below 80%, (4) emergent sub-questions surfaced during research that were never investigated. For each gap found, conduct a **follow-up investigation** — WebSearch for additional evidence, then update findings, assumption classifications, or confidence levels. Label each follow-up clearly (e.g., "Refinement Round 1: investigated [gap]"). Repeat until a scan surfaces zero new gaps or you have completed 3 rounds. This phase is what separates surface-level research from convergent analysis — do not skip it.
+After the adversarial review, run a gap scan. Check for: (1) assumptions classified "uncertain" or "reasonable" without a source URL, (2) unresolved contradictions between sources, (3) claims with confidence below 80%, (4) emergent sub-questions surfaced during research that were never investigated. For each gap found, conduct a **follow-up investigation** — WebSearch for additional evidence, then update findings, assumption classifications, or confidence levels. Repeat until a scan surfaces zero new gaps or you have completed 3 rounds. This phase is what separates surface-level research from convergent analysis — do not skip it.
+
+**Visible in output:** Include a brief "Refinement Round N" note in the Adversarial Review section for each round, stating what gap was investigated and how findings changed (e.g., "Refinement Round 1: investigated [gap] — reclassified assumption X from uncertain to verified [source]"). When sources contradict each other, state both positions explicitly and which you weigh higher with justification (e.g., "Source A claims X, however Source B shows Y — we weigh B higher because [reason]").
 
 ### Phase 6: Practitioner Check
 
@@ -143,7 +145,9 @@ Produce a structured deliverable. Target **2,500-3,500 words** for the main body
 [2-3 sentences. The answer. Confidence level: X%]
 
 ## Key Findings
-[Numbered list of findings. EVERY finding must have an inline source citation. EVERY number or statistic must link to its source — zero naked stats. For each finding, note evidence strength: systematic review/meta-analysis > controlled study > observational > expert opinion > anecdote. No [unverified] claims allowed in this section — move uncertain findings to Adversarial Review.]
+[Numbered list of findings. EVERY finding must have an inline source citation. EVERY number or statistic must link to its source — zero naked stats. For each finding, note evidence strength: systematic review/meta-analysis > controlled study > observational > expert opinion > anecdote. No [unverified] claims allowed in this section — move uncertain findings to Adversarial Review.
+
+When the question spans 3+ domains, organize findings under explicitly labeled perspective headers (e.g., "### Regulatory Analysis", "### Technical Assessment", "### Financial Perspective"). After presenting individual perspectives, include a "### Cross-Domain Interactions" subsection analyzing how constraints from different domains compound, conflict, or create tensions that only emerge when perspectives are combined.]
 
 ## Industry Standards Compliance
 [Table: Standard | Requirement | Status | Source]
@@ -170,6 +174,11 @@ Use collapsible sections for detailed assumption audits and failure mode analysi
 ```
 
 Adapt this structure to the topic — not every section applies to every question. But never skip: Executive Summary, Quantitative Analysis, Industry Standards, Implementation Guidance, Adversarial Review, and Sources.
+
+**Mandatory output elements** (include in every report regardless of topic):
+- **Scope statement**: State what this analysis does NOT cover (1-2 sentences, e.g., "This analysis does not cover X, Y, or Z")
+- **Sensitivity check**: In the Recommendation section, state at least one condition under which the recommendation would change (e.g., "If [assumption] proves wrong, switch to [alternative]")
+- **Evidence hierarchy**: For at least one key finding, explicitly label the evidence type (e.g., "peer-reviewed study", "vendor benchmark [low confidence]", "case study")
 
 ## Confidence Calibration
 

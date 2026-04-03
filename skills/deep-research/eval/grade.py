@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Grade /dr skill outputs — 23 binary evals across 6 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
+"""Grade /dr skill outputs — 35 binary evals across 9 tiers. Usage: python3 grade.py <output.md> [--flawed-premise] [--verify-urls]"""
 
 import re, sys, subprocess, random
 
@@ -47,7 +47,10 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     r['E9_urls_legit_tlds'] = legit >= 10
 
     specific = re.findall(
-        r'(?:Section|Clause|Art(?:icle)?\.?|Part|Annex|Table|Req\.?|CC|SR)\s*\d+[\.\d]*', content)
+        r'(?:Section|Clause|Art(?:icle)?\.?|Part|Annex|Table|Req\.?|CC|SR|Ch(?:apter)?\.?)\s*\d+[\.\d]*|'
+        r'(?:EN|ISO|IEC|CEN(?:/TS)?)\s+\d+[\-/]\d+[\w:\-.]*|'   # full standard refs like EN 16931-1:2017
+        r'v\d+\.\d+\.\d+',                                        # semantic versions like v3.0.20
+        content)
     r['E10_3+_specific_clauses'] = len(specific) >= 3
 
     cited_data_lines = 0
@@ -67,7 +70,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
                 real_code += 1
     r['E12_real_code'] = real_code >= 1 if code_blocks else True
 
-    rec = re.search(r'(?i)## Recommendation[\s\S]*?(?=\n##|\Z)', content)
+    rec = re.search(r'(?i)## Recommendation[\s\S]*?(?=\n## [^#]|\Z)', content)
     if rec:
         conds = re.findall(r'(?i)(?:if|when|unless|condition|change|switch|pivot|reconsider|revisit)', rec.group())
         r['E13_change_conditions'] = len(conds) >= 2
@@ -79,10 +82,10 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
 
     # ═══ TIER 3: Rigor ═══
 
-    findings = re.search(r'(?i)## Key Findings[\s\S]*?(?=\n##|\Z)', content)
+    findings = re.search(r'(?i)## Key Findings[\s\S]*?(?=\n## [^#]|\Z)', content)
     r['E15_findings_verified'] = '[unverified]' not in (findings.group().lower() if findings else '')
 
-    sources = re.search(r'(?i)## Sources[\s\S]*?(?=\n##|\Z)', content)
+    sources = re.search(r'(?i)## Sources[\s\S]*?(?=\n## [^#]|\Z)', content)
     if sources:
         r['E16_sources_organized'] = bool(re.search(r'(?:\*\*[^*]+\*\*:?|###\s)', sources.group()))
     else:
@@ -197,7 +200,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r['E26_assumptions_investigated'] = len(reclassified) >= 1 or not has_audit
 
     # E19: Executive summary is self-contained (has answer + confidence in first 3 sentences)
-    exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n##|\Z)', content)
+    exec_summary = re.search(r'(?i)## Executive Summary\s*\n([\s\S]*?)(?=\n## [^#]|\Z)', content)
     if exec_summary:
         summary_text = exec_summary.group(1).strip()
         has_answer = len(summary_text) > 50  # not trivially short
@@ -207,7 +210,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         r['E19_exec_summary_complete'] = False
 
     # E20: Alternatives section exists and has 2+ options with data
-    alts = re.search(r'(?i)## Alternatives[\s\S]*?(?=\n##|\Z)', content)
+    alts = re.search(r'(?i)## Alternatives[\s\S]*?(?=\n## [^#]|\Z)', content)
     if alts:
         alt_text = alts.group()
         alt_options = re.findall(r'(?:###\s|\d+\.\s\*\*|\*\*\d+\.)', alt_text)
@@ -239,13 +242,99 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     )
     r['E28_constraint_interaction'] = len(interaction_markers) >= 2
 
-    # E29: Jurisdiction/domain-specific depth — 3+ distinct regulatory frameworks cited
-    jurisdiction_refs = {m.upper().replace(' ', '') for m in re.findall(
+    # E29: Multi-framework depth — 3+ distinct regulatory/standards frameworks cited
+    framework_refs = {m.upper().replace(' ', '') for m in re.findall(
         r'(?i)(GDPR|PSD2|APPI|LGPD|BDSG|NDPR|HIPAA|PCI.DSS|SOX|MiCA|DORA|FCA|FinCEN|'
-        r'Kenya.{0,10}(?:Data|DPA)|Nigeria.{0,10}(?:Data|NDPR)|Basel|Dodd.Frank|MiFID|CCPA|PIPL)',
+        r'Kenya.{0,10}(?:Data|DPA)|Nigeria.{0,10}(?:Data|NDPR)|Basel|Dodd.Frank|MiFID|CCPA|PIPL|'
+        r'ViDA|HMRC|MTD|Peppol|EMIR|SFDR|NIS2|CRA|CSRD|AI.Act|DSA|DMA|'
+        r'NIST|OWASP|ISO\s*\d+|IEC\s*\d+|EN\s*\d+|RFC\s*\d+|'
+        r'ERISA|FIFRA|EAR|ITAR|TSCA|CPSC|OSHA|EPA|FDA|FTC|SEC|'
+        r'Cartagena|CBD|UNCLOS|ILO|UNDRIP|WHO|WTO|WIPO)',
         content
     )}
-    r['E29_multi_jurisdiction_depth'] = len(jurisdiction_refs) >= 3
+    r['E29_multi_framework_depth'] = len(framework_refs) >= 3
+
+    # ═══ TIER 8: Actionability & Grounding (environment-aware implementation) ═══
+
+    # E30: Artifact specificity — Implementation Guidance names specific actionable artifacts
+    # (file paths, form numbers, tool names, regulatory bodies, sequenced steps, templates)
+    # Generic across domains: a pharma report names "FDA Form 1571", a devops report names
+    # "~/.tool-versions", a legal report names "Annex III risk assessment dossier"
+    impl_sections = re.split(r'\n(?=## )', content)
+    impl_text = next((s for s in impl_sections if 'Implementation' in s.split('\n')[0]), content)
+    artifacts = re.findall(
+        r'(?i)('
+        r'/(?:etc|home|usr|var|opt|Users|tmp|app|srv)[\w/._-]+|'      # absolute file paths
+        r'~\/[\w/._-]+|'                                              # home-relative paths
+        r'(?:package|config|docker|requirements|Cargo|go)\.\w+|'      # config files
+        r'\w+\.(?:py|js|ts|json|yaml|yml|toml|sql|sh)\b|'            # source files
+        r'(?:Form|Annex|Schedule|Appendix|Exhibit)\s+[A-Z0-9]+[\.\d]*|'  # regulatory artifacts
+        r'(?:Step|Phase|Year|Weeks?|Month|Stage)\s+\d+|'             # sequenced steps
+        r'(?:Template|Checklist|Playbook|Runbook)\b|'                 # operational docs
+        r'(?:pip|npm|brew|cargo|apt|mise|nvm)\s+install|'             # install commands
+        r'(?:v|version)\s*\d+[\.\d]+\b|'                              # version numbers
+        r'https?://api\.[^\s)]+|'                                      # API endpoint URLs
+        r'(?:POST|GET|PUT|DELETE|PATCH)\s+/\w+'                       # REST endpoints
+        r')',
+        impl_text
+    )
+    r['E30_artifact_specificity'] = len(artifacts) >= 3
+
+    # E31: Recommendation validation — output shows evidence of validating its recommendation
+    # (testing code, computing an example, checking a registry, citing precedent/case study/production use)
+    validation_markers = re.findall(
+        r'(?i)((?:tested|confirmed|verified|validated|computed|calculated|measured|benchmarked|checked|demonstrated).{0,60}'
+        r'(?:successfully|works|passes|started|running|output|result|returns|shows|yields|produces|gives)|'
+        r'(?:precedent|case study|real[\s-]world|in practice|deployed at|used by|in production|production[\s-]ready)\s|'
+        r'(?:example|calculation|computation):\s|'
+        r'(?:\d+\+?\s+)?(?:customer|client|user|company|enterprise)s?\s+(?:use|using|report|adopted|rely))',
+        content
+    )
+    r['E31_recommendation_validated'] = len(validation_markers) >= 1
+
+    # E32: Sensitivity analysis — recommendation stress-tested against assumptions
+    sensitivity_markers = re.findall(
+        r'(?i)((?:if|when|should)\s+.{0,30}(?:assumption|premise).{0,30}(?:wrong|incorrect|change|break|fail|invalid)|'
+        r'sensiti(?:vity|ve)\s+analysis|'
+        r'recommendation\s+(?:changes?|breaks?|holds?)\s+(?:if|when)|'
+        r'(?:robust|resilient|brittle)\s+(?:to|against|under)|'
+        r'if.{0,40}(?:wrong|fails?|proves?\s+(?:false|incorrect)).{0,30}(?:switch|pivot|change|reconsider|fall\s*back|defer)|'
+        r'(?:switch|pivot|change)\s+to\s+.{3,30}\s+if\b)',
+        content
+    )
+    r['E32_sensitivity_analysis'] = len(sensitivity_markers) >= 1
+
+    # E33: Source credibility — at least 1 explicit source-type label
+    credibility_markers = re.findall(
+        r'(?i)(primary source|first[\s-]party|official doc(?:umentation|s)?|'
+        r'peer[\s-]reviewed|registry\s+(?:data|entry|record)|'
+        r'vendor[\s-](?:provided|supplied|originated|documentation|benchmark|claim)|'
+        r'secondary source|third[\s-]party|'
+        r'regulatory text|standards body|government\s+(?:source|data|report)|'
+        r'directly observed|independently verified|'
+        r'\[(?:low|medium|high)\s+confidence\])',
+        content
+    )
+    r['E33_source_credibility_labeled'] = len(credibility_markers) >= 1
+
+    # E34: Imprecision reporting — sample sizes, confidence intervals, or margins of error
+    precision_markers = re.findall(
+        r'(?i)(n\s*=\s*[\d,]+|sample\s+(?:size|of)\s+[\d,]+|'
+        r'confidence\s+interval|margin\s+of\s+error|±\s*[\d.]+|'
+        r'standard\s+deviation|std\.?\s*dev|p\s*[<>=]\s*0?\.\d+|'
+        r'\d+\s*%\s*CI\b)',
+        content
+    )
+    r['E34_imprecision_reported'] = len(precision_markers) >= 1
+
+    # E35: Scope boundaries — explicit out-of-scope statement
+    scope_markers = re.findall(
+        r'(?i)(out[\s-]of[\s-]scope|(?:does|do)\s+not\s+(?:cover|address|evaluate|consider)|'
+        r'beyond\s+(?:the\s+)?scope|excluded?\s+from\s+(?:this\s+)?analysis|'
+        r'not\s+(?:included|covered)\s+(?:in|here)|scope\s+(?:of|for)\s+this)',
+        content
+    )
+    r['E35_scope_boundaries'] = len(scope_markers) >= 1
 
     # ═══ Report ═══
     # Filter out None (skipped) evals
@@ -262,7 +351,8 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         ('TIER 4 (ground truth)', ('E17_','E18_','E19_','E20_')),
         ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
         ('TIER 6 (convergence)', ('E24_','E25_','E26_')),
-        ('TIER 7 (expert delegation)', ('E27_','E28_','E29_')),
+        ('TIER 7 (multi-framework)', ('E27_','E28_','E29_')),
+        ('TIER 8 (actionability)', ('E30_','E31_','E32_','E33_','E34_','E35_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}
         if not tier_evals:
