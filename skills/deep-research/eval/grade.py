@@ -47,7 +47,10 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     r['E9_urls_legit_tlds'] = legit >= 10
 
     specific = re.findall(
-        r'(?:Section|Clause|Art(?:icle)?\.?|Part|Annex|Table|Req\.?|CC|SR)\s*\d+[\.\d]*', content)
+        r'(?:Section|Clause|Art(?:icle)?\.?|Part|Annex|Table|Req\.?|CC|SR|Ch(?:apter)?\.?)\s*\d+[\.\d]*|'
+        r'(?:EN|ISO|IEC|CEN(?:/TS)?)\s+\d+[\-/]\d+[\w:\-.]*|'   # full standard refs like EN 16931-1:2017
+        r'v\d+\.\d+\.\d+',                                        # semantic versions like v3.0.20
+        content)
     r['E10_3+_specific_clauses'] = len(specific) >= 3
 
     cited_data_lines = 0

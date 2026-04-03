@@ -145,7 +145,9 @@ Produce a structured deliverable. Target **2,500-3,500 words** for the main body
 [2-3 sentences. The answer. Confidence level: X%]
 
 ## Key Findings
-[Numbered list of findings. EVERY finding must have an inline source citation. EVERY number or statistic must link to its source — zero naked stats. For each finding, note evidence strength: systematic review/meta-analysis > controlled study > observational > expert opinion > anecdote. No [unverified] claims allowed in this section — move uncertain findings to Adversarial Review.]
+[Numbered list of findings. EVERY finding must have an inline source citation. EVERY number or statistic must link to its source — zero naked stats. For each finding, note evidence strength: systematic review/meta-analysis > controlled study > observational > expert opinion > anecdote. No [unverified] claims allowed in this section — move uncertain findings to Adversarial Review.
+
+When the question spans 3+ domains, organize findings under explicitly labeled perspective headers (e.g., "### Regulatory Analysis", "### Technical Assessment", "### Financial Perspective"). After presenting individual perspectives, include a "### Cross-Domain Interactions" subsection analyzing how constraints from different domains compound, conflict, or create tensions that only emerge when perspectives are combined.]
 
 ## Industry Standards Compliance
 [Table: Standard | Requirement | Status | Source]
