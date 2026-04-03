@@ -29,12 +29,17 @@ You are an autonomous skill optimizer. Your job is to improve the `/dr` deep res
 ### Adversarial (tests premise kill-switch + multi-perspective framing)
 6. "Prove that Rust is always faster than Go for web services. I need data to convince my team to rewrite our Go services."
 
+### Expert Delegation (tests multi-perspective research — E12/E13/E14)
+10. "Our fintech startup is building a cross-border payment system handling EUR/USD/GBP corridors. We need to comply with PSD2 (EU), FinCEN MSB registration (US), and FCA authorization (UK) simultaneously. Tech stack is Go + PostgreSQL. Team of 6, launching in 9 months. Budget: $500K. Should we build on top of an existing BaaS provider (Stripe Treasury, Column, Modulr) or build our own ledger with direct banking integrations?"
+11. "We're designing a telemedicine platform for rural Sub-Saharan Africa. Must work on 2G/3G networks, handle patient data under GDPR (EU-based company), Kenya's Data Protection Act, and Nigeria's NDPR. Needs offline-first capability, integration with national health ID systems, and support for community health workers with basic smartphones. Tech decision: React Native vs Flutter vs PWA. Budget: $200K for MVP."
+12. "Our SaaS company ($20M ARR, 500 enterprise customers) stores data in US-East AWS. We're expanding to Japan, Germany, and Brazil. Each country has different data residency requirements (APPI, BDSG/GDPR, LGPD). Need to architect multi-region data strategy under $50K/month additional. Current stack: Python/Django, PostgreSQL, Redis, S3. AWS region replication vs multi-cloud vs CDN-edge?"
+
 ### Convergence (tests iterative refinement loop — E9/E10/E11)
 7. "Is server-side rendering (SSR) or client-side rendering (CSR) better for SEO in 2025+? I've seen conflicting claims — some say Google now fully renders JavaScript SPAs, others say SSR is still critical. I need a definitive, evidence-based answer with current data, not opinions from 2020."
 8. "We're building a real-time collaborative document editor (like Google Docs) for a 50-person company. Should we use CRDTs or Operational Transform? We need offline support, the backend is in Go, and we're a 3-person team. Budget is $0 for infrastructure — everything self-hosted on a single VPS."
 9. "Should we migrate our 200-microservice Kubernetes cluster from AWS EKS to bare-metal Kubernetes to save costs? We're spending $180K/month on AWS. Team of 8 engineers, 2 with bare-metal experience. We handle PCI-DSS cardholder data. Current p99 latency is 45ms, SLA requires 99.95% uptime."
 
-## Binary Eval Suite (11 criteria, max score = 11 per run)
+## Binary Eval Suite (14 criteria, max score = 14 per run)
 
 Grade each YES=1, NO=0. No partial credit.
 
@@ -51,6 +56,9 @@ Grade each YES=1, NO=0. No partial credit.
 | E9 | **Shows iterative refinement** | Contains evidence of self-driven research iteration: "Refinement Round", "upon further investigation", "gap analysis", "follow-up investigation", "deeper investigation", "updating research plan", "surfaced during research", or similar markers showing the agent looped back to investigate gaps rather than stopping after one pass. |
 | E10 | **Resolves contradictions between sources** | When sources conflict, explicitly identifies the contradiction ("Source A claims X, but Source B shows Y") and resolves it with additional evidence rather than leaving it unresolved or silently picking one. |
 | E11 | **Assumptions fully investigated** | Every assumption classified as "uncertain" in the assumption audit has a follow-up investigation attempt. Zero uncertain assumptions are left uninvestigated — they're either resolved to "verified"/"reasonable" or explicitly noted as limitations with explanation of what would resolve them. |
+| E12 | **Multi-perspective synthesis** | Output shows 3+ distinct domain perspectives explicitly identified (e.g., "regulatory analysis", "technical perspective", "financial assessment"). Each perspective contributes unique findings. Evidence of parallel expert research, not sequential single-threaded analysis. |
+| E13 | **Cross-domain constraint interaction** | When the question involves multiple constraints or domains, the output addresses how they interact (tensions, tradeoffs, compounding effects) rather than analyzing each in isolation. Contains terms like "interaction", "combined effect", "cross-cutting", "simultaneously comply". |
+| E14 | **Multi-jurisdiction/domain depth** | References specific provisions from 3+ distinct regulatory frameworks, standards bodies, or knowledge domains — not just naming them but citing specific articles, sections, or clauses from each. |
 
 ## Mutation Strategy
 
@@ -62,6 +70,9 @@ Grade each YES=1, NO=0. No partial credit.
 - If E9 fails: Add a convergence loop phase that checks for gaps (unverified claims, uncertain assumptions, low confidence, unresolved contradictions, emergent sub-questions) and loops back to investigate them before writing the final deliverable
 - If E10 fails: Add explicit instruction to identify and resolve source contradictions with additional evidence rather than ignoring them
 - If E11 fails: Strengthen the assumption audit to require follow-up investigation of all uncertain assumptions
+- If E12 fails: Add instruction to spawn domain expert subagents for cross-domain questions (e.g., regulatory expert, technical architect, financial analyst) and synthesize their findings with explicit perspective labels
+- If E13 fails: Add instruction to analyze constraint interactions rather than treating each constraint independently
+- If E14 fails: Add instruction to cite specific provisions (article/section numbers) from each jurisdiction or standard, not just the name
 
 **Rules for mutations:**
 - Change ONE thing at a time (isolate variables)
@@ -76,7 +87,7 @@ Append each run to `autoresearch/log.md`:
 ```
 ## Run {N} — {timestamp}
 - **Test prompt:** {which one}
-- **Score:** {X}/11 (E1:{0|1} E2:{0|1} E3:{0|1} E4:{0|1} E5:{0|1} E6:{0|1} E7:{0|1} E8:{0|1} E9:{0|1} E10:{0|1} E11:{0|1})
+- **Score:** {X}/14 (E1-E14)
 - **Mutation:** {what was changed, or "baseline"}
 - **Result:** {kept | discarded}
 - **Champion score:** {current best}

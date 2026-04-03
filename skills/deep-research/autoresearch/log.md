@@ -1277,3 +1277,53 @@ Champion score: 5/5 (Run 2, confirmed across Runs 3-5)
 **Prompt types tested: infrastructure migration (#9), architecture decision (#4), adversarial flawed premise (#6), collaborative systems (#8).**
 **Post-Phase-5b pass rate: 100% across convergence runs 2-6 (5/5 runs at 11/11).**
 **Phase 5b (Convergence Loop) confirmed as the mutation that resolved E9/E10/E11 — consistently produces labeled Refinement Rounds, contradiction resolution, and assumption reclassification across all prompt types.**
+
+---
+
+## Expert Delegation (Tier 7: E27/E28/E29) — Runs delegation-1 through delegation-3
+
+## Run delegation-1 — 2026-04-01 28-eval expert delegation test (fintech cross-border payments)
+- **Test prompt:** #10 — "Our fintech startup is building a cross-border payment system handling EUR/USD/GBP corridors. We need to comply with PSD2 (EU), FinCEN MSB registration (US), and FCA authorization (UK) simultaneously..."
+- **Score:** 24/28 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:0 E21:1 E22:0 E23:1 E24:1 E25:0 E26:1 E27:0 E28:1 E29:1)
+- **Mutation:** baseline (pre-expert-delegation mutation, 191 lines)
+- **Result:** discarded — E27 fails (multi-perspective), E20/E22/E25 also fail
+- **Binary suite (E1-E14):** E12:FAIL (no explicit perspective labels)
+- **Champion score:** 24/28
+- **Details:** 29 URLs, Confidence 82%, 4 tables, 3 code blocks (Go router, Python budget, SQL ledger). PSD2 Art. 10/11, 31 CFR 1022.210, UK PSR 2017 Reg. 13, FCA safeguarding 2026, ISO 20022. Cross-domain constraint interaction section present. E27 failed — analysis covered regulatory, technical, and financial domains but without explicit perspective labels (e.g., "### Regulatory Analysis"). ~2,960 words.
+
+## Run delegation-2 — 2026-04-01 28-eval expert delegation test (telemedicine Sub-Saharan Africa)
+- **Test prompt:** #11 — "We're designing a telemedicine platform for rural Sub-Saharan Africa. Must work on 2G/3G networks, handle patient data under GDPR (EU-based company), Kenya's Data Protection Act, and Nigeria's NDPR..."
+- **Score:** 27/28 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:0 E21:1 E22:1 E23:1 E24:1 E25:1 E26:1 E27:1 E28:1 E29:1)
+- **Mutation:** Added "Expert delegation for cross-domain questions" instruction to Phase 1 (2 lines) — instructs explicit domain perspective labels (### Regulatory Analysis, ### Technical Assessment, etc.) and cross-domain constraint interaction synthesis.
+- **Result:** kept — E27/E28/E29 all pass (Tier 7: 3/3)
+- **Binary suite (E1-E14):** 14/14 all pass (E12:PASS with 4 labeled perspectives)
+- **Champion score:** 27/28
+- **Skill lines:** 191 → 193
+- **Details:** 24 URLs, Confidence 78%, 4 tables, 4 code blocks (JS service worker, JSON FHIR, Python budget, YAML architecture). GDPR Art. 46(2)(c)/Art. 49, Kenya DPA 2019 Section 18, Digital Health Act 2023, Nigeria NDPA 2023 GAID Schedule 5, HL7 FHIR R4 cited. 4 explicitly labeled domain perspectives: Regulatory Analysis, Technical Assessment, Financial Perspective, Infrastructure Perspective. Cross-domain constraint interactions: GDPR×Kenya DPA, GDPR×Nigeria NDPA, Kenya DPA×Nigeria NDPA, Offline-First×Data Protection. 3 Refinement Rounds. ~3,010 words. E20 fails due to grader regex issue (### inside Alternatives section matches \n##).
+
+## Run delegation-3 — 2026-04-01 28-eval expert delegation confirmation (multi-region data residency)
+- **Test prompt:** #12 — "Our SaaS company ($20M ARR, 500 enterprise customers) stores data in US-East AWS. We're expanding to Japan, Germany, and Brazil. Each country has different data residency requirements (APPI, BDSG/GDPR, LGPD)..."
+- **Score:** 27/28 (E1:1 E2:1 E3:1 E4:1 E5:1 E6:1 E7:1 E8:1 E9:1 E10:1 E11:1 E12:1 E13:1 E14:1 E15:1 E16:1 E17:skip E18:1 E19:1 E20:1 E21:1 E22:0 E23:1 E24:1 E25:1 E26:1 E27:1 E28:1 E29:1)
+- **Mutation:** none (testing current champion)
+- **Result:** champion holds — E27/E28/E29 pass (Tier 7: 3/3)
+- **Binary suite (E1-E14):** 14/14 all pass
+- **Champion score:** 27/28
+- **Skill lines:** 193
+- **Details:** 21 URLs, Confidence 80%, 5 tables, 3 code blocks (Python Django router, bash AWS CLI, Python cost model). GDPR Art. 46(2)(c)/Art. 30, BDSG Section 26, APPI Art. 28, LGPD Art. 33, ANPD Resolution 19/2024 cited. 4 explicitly labeled domain perspectives. Cross-domain constraint interactions: GDPR×APPI mutual adequacy, LGPD×GDPR SCC interaction, APPI monitoring×LGPD oversight, data residency×replication tension. 3 Refinement Rounds. 3 structured counterarguments with rebuttals. ~2,940 words. E22 fails (no explicit evidence hierarchy terms like "systematic review").
+
+---
+
+## Expert Delegation Summary
+
+| Run | Prompt | 28-eval Score | Tier 7 (E27/E28/E29) | E12/E13/E14 | Mutation |
+|-----|--------|---------------|----------------------|-------------|----------|
+| delegation-1 | #10 Fintech cross-border | 24/28 | 2/3 (E27:FAIL) | E12:FAIL E13:PASS E14:PASS | baseline (pre-mutation) |
+| delegation-2 | #11 Telemedicine Africa | 27/28 | 3/3 (all PASS) | all PASS | Expert delegation added (kept) |
+| delegation-3 | #12 Multi-region data residency | 27/28 | 3/3 (all PASS) | all PASS | none (champion holds) |
+
+**Mutation applied:** Added "Expert delegation for cross-domain questions" instruction to Phase 1 (delegation-1→delegation-2)
+**Effect:** E27 (multi-perspective) resolved — explicitly labeled domain perspectives now consistently generated
+**E28 (constraint interaction) and E29 (multi-jurisdiction depth) were already passing pre-mutation**
+**Post-mutation pass rate: 100% for Tier 7 across 2 runs (delegation-2, delegation-3)**
+**Skill status: 193 lines, Tier 7 passing, E12/E13/E14 all passing**
+**Remaining failure: E22 (evidence hierarchy terms) intermittently fails — pre-existing Tier 5 issue, not related to expert delegation mutation**

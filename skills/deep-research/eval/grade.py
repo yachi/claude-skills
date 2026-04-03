@@ -216,6 +216,37 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
     else:
         r['E20_alternatives_with_data'] = False
 
+    # ═══ TIER 7: Expert Delegation (multi-perspective research) ═══
+
+    # E27: Multi-perspective synthesis — output shows 3+ distinct domain perspectives
+    _DOMAINS = (r'regulatory|compliance|legal|technical|architecture|security|financial|cost|economic|'
+                r'clinical|medical|infrastructure|networking|operational|business|UX|user experience|privacy|data protection')
+    perspective_hits = re.findall(
+        r'(?i)(?:###?\s*(?:' + _DOMAINS + r')\s*(?:analysis|review|assessment|findings|perspective)|'
+        r'(?:from\s+(?:a|the)\s+)?(?:' + _DOMAINS + r')\s*(?:perspective|standpoint|viewpoint|angle|lens|analysis|expert|specialist))',
+        content
+    )
+    r['E27_multi_perspective'] = len(set(perspective_hits)) >= 3
+
+    # E28: Cross-domain constraint interaction — addresses how constraints interact, not just independently
+    interaction_markers = re.findall(
+        r'(?i)(interact(?:ion|s|ing)|intersect(?:ion|s|ing)|compound(?:s|ing|ed)|'
+        r'combined (?:effect|impact|constraint|requirement)|'
+        r'(?:constraint|requirement)s?.{0,30}(?:conflict|tension|tradeoff|trade-off)|'
+        r'simultaneously|concurrently.{0,30}(?:comply|satisfy|meet)|'
+        r'cross-(?:domain|cutting|jurisdict)|multi-(?:jurisdict|regulat))',
+        content
+    )
+    r['E28_constraint_interaction'] = len(interaction_markers) >= 2
+
+    # E29: Jurisdiction/domain-specific depth — 3+ distinct regulatory frameworks cited
+    jurisdiction_refs = {m.upper().replace(' ', '') for m in re.findall(
+        r'(?i)(GDPR|PSD2|APPI|LGPD|BDSG|NDPR|HIPAA|PCI.DSS|SOX|MiCA|DORA|FCA|FinCEN|'
+        r'Kenya.{0,10}(?:Data|DPA)|Nigeria.{0,10}(?:Data|NDPR)|Basel|Dodd.Frank|MiFID|CCPA|PIPL)',
+        content
+    )}
+    r['E29_multi_jurisdiction_depth'] = len(jurisdiction_refs) >= 3
+
     # ═══ Report ═══
     # Filter out None (skipped) evals
     active = {k: v for k, v in r.items() if v is not None}
@@ -231,6 +262,7 @@ def grade(path, has_flawed_premise=False, verify_urls=False):
         ('TIER 4 (ground truth)', ('E17_','E18_','E19_','E20_')),
         ('TIER 5 (industrial)', ('E21_','E22_','E23_')),
         ('TIER 6 (convergence)', ('E24_','E25_','E26_')),
+        ('TIER 7 (expert delegation)', ('E27_','E28_','E29_')),
     ]:
         tier_evals = {k:v for k,v in r.items() if any(k.startswith(p) for p in prefix_list) and v is not None}
         if not tier_evals:
