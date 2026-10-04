@@ -1,0 +1,19 @@
+2026-10-03T14:22:01Z INFO  checkout start request_id=a1 path=/checkout
+2026-10-03T14:22:01Z INFO  db.pool acquired conn=1/5 request_id=a1
+2026-10-03T14:22:01Z INFO  checkout start request_id=a2 path=/checkout
+2026-10-03T14:22:01Z INFO  db.pool acquired conn=2/5 request_id=a2
+2026-10-03T14:22:02Z INFO  upstream.payments call request_id=a1 timeout_ms=8000
+2026-10-03T14:22:02Z INFO  db.pool acquired conn=3/5 request_id=a3
+2026-10-03T14:22:02Z INFO  db.pool acquired conn=4/5 request_id=a4
+2026-10-03T14:22:02Z INFO  db.pool acquired conn=5/5 request_id=a5
+2026-10-03T14:22:02Z WARN  db.pool exhausted max=5 in_use=5 waiters=59
+2026-10-03T14:22:04Z ERROR db.pool acquire timeout after 2000ms request_id=a6 waiters=59
+2026-10-03T14:22:04Z ERROR checkout failed request_id=a6 status=503 reason=db_pool_acquire_timeout
+2026-10-03T14:22:04Z ERROR db.pool acquire timeout after 2000ms request_id=a7 waiters=58
+2026-10-03T14:22:04Z ERROR checkout failed request_id=a7 status=503 reason=db_pool_acquire_timeout
+2026-10-03T14:22:10Z INFO  upstream.payments response request_id=a1 duration_ms=7980 status=200
+2026-10-03T14:22:10Z INFO  db.pool released conn request_id=a1 held_ms=8100
+2026-10-03T14:22:10Z INFO  db.pool acquired conn=5/5 request_id=a8
+# Root cause: 64 worker threads contend for a 5-connection pool; payment calls
+# hold a connection for ~8s, so the pool is exhausted and waiters hit the 2s
+# acquire timeout -> intermittent 503 db_pool_acquire_timeout.

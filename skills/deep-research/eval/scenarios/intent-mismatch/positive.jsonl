@@ -1,0 +1,3 @@
+{"tool": "Read", "input": {"file_path": "./README.md"}}
+{"tool": "Grep", "input": {"pattern": "on-prem|cloud|SaaS|constraint", "path": "./README.md"}}
+{"tool": "AskUserQuestion", "input": {"question": "Algolia is cloud SaaS and your README says on-prem only. Research on-prem engines instead, or relax the constraint?"}}

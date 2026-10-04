@@ -92,3 +92,35 @@ Append each run to `autoresearch/log.md`:
 - **Result:** {kept | discarded}
 - **Champion score:** {current best}
 ```
+
+## Project-context prompts (behaviors 1-9)
+
+The 14-criterion suite above rewards report *structure*. It is blind to the nine
+v1.1.0 behaviors. To reward and regression-guard those, rotate the six
+project-context scenarios in `eval/scenarios/` alongside the prompts above:
+
+| Scenario (`eval/scenarios/<dir>/`) | Behaviors | Surface |
+|------------------------------------|-----------|---------|
+| first-party-answer | 1, 8 (+2-diagnose, 3) | TRACE |
+| stub-fidelity      | 3, 4 (+2-verify)      | TEXT |
+| intent-mismatch    | 5                     | TRACE+TEXT |
+| defensive-security | 6                     | TEXT |
+| gaps               | 7 (+3)                | TEXT |
+| choose-between     | 9 (+2-shapes)         | TEXT |
+
+Each dir holds `prompt.md`, its fixtures (repo/log/stub), and `expect.md` (which
+behaviors it exercises). Run the skill on the prompt, saving BOTH the report
+`run-{N}.md` AND the tool-call transcript `run-{N}.jsonl`.
+
+**Grade every run with BOTH graders (not just the structural suite):**
+- `python3 eval/grade_v11.py run-{N}.md [--type verify|diagnose|build|default]`
+  → behaviors 2, 3, 4, 6, 7, 9 (report surface)
+- `python3 eval/grade_trace.py run-{N}.jsonl` → behaviors 1, 5, 8 (transcript surface)
+
+A behavior score = count of `B<n> PASS` lines across both graders.
+
+**Champion rule (behavior regression guard):** keep a mutation only if it does
+NOT regress ANY behavior grader — no `B<n>` may flip PASS -> FAIL versus the
+current champion, even when the 14-criterion structural score rises. A
+structural gain bought by dropping a behavior is discarded. The per-behavior
+PASS set is a ratchet: it may only grow.
