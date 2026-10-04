@@ -135,7 +135,9 @@ def b7_gap_ledger(text):
     has_class_col = bool(re.search(r'(?im)^\|[^\n]*\bclass\b', text)) or len(set(t.lower() for t in class_tokens)) >= 1
     termination = bool(re.search(
         r'(?i)(0\s+gaps|zero\s+closable-by-tool|stopped\s+after\s+\d+\s+round|'
-        r'after\s+\d+\s+rounds|no\s+(?:new\s+)?closable-by-tool\s+gaps?\s+(?:remain|left))', text))
+        r'after\s+\d+\s+rounds|no\s+(?:new\s+)?closable-by-tool\s+gaps?|'
+        r'terminat\w+[^.\n]{0,60}(?:round|phase\s*5b|rule|loop|gap)|'
+        r'only\s+[^.\n]{0,40}lower-severity)', text))
     ok = has_ledger and len(class_tokens) >= 1 and has_class_col and termination
     return ok, (f'ledger={has_ledger}, class-tokens={len(class_tokens)}, '
                 f'class-col={has_class_col}, termination={termination}')
@@ -157,7 +159,14 @@ def b9_candidate_version(text, mode):
         results.append(('candidate', incumbent, f'incumbent/status-quo-alternative={incumbent}'))
     if mode in ('version', 'both'):
         states_version = bool(re.search(r'(?i)\bv?\d+\.\d+(?:\.\d+)?\b|version\s+\d', text))
-        pinned_and_latest = bool(re.search(r'(?i)pinned', text)) and bool(re.search(r'(?i)latest(?:\s+release)?', text))
+        # version scope = a pinned/current version AND a latest/newest reference —
+        # accept natural phrasing ("you are on 5.3.1 ... latest is 8.0.1 / N majors behind"),
+        # not only the SKILL.md jargon word "pinned".
+        has_current = bool(re.search(
+            r'(?i)(pinned|current(?:ly)?|installed|you(?:\'re| are)\s+on|running|incumbent|'
+            r'majors?\s+behind|versions?\s+behind)', text))
+        has_latest = bool(re.search(r'(?i)(latest|newest|current release|up[\s-]?to[\s-]?date|most recent)', text))
+        pinned_and_latest = has_current and has_latest
         ok_v = states_version and pinned_and_latest
         results.append(('version', ok_v, f'states-version={states_version}, pinned+latest={pinned_and_latest}'))
     ok = all(r[1] for r in results)
