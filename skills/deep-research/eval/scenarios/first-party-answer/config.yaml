@@ -1,0 +1,22 @@
+# checkout-service runtime config
+service:
+  name: checkout-service
+  port: 8080
+  request_timeout_ms: 30000
+
+database:
+  host: pg-primary.internal
+  port: 5432
+  name: checkout
+  # connection pool
+  pool:
+    max_connections: 5        # <-- pool ceiling
+    acquire_timeout_ms: 2000  # waiters give up after 2s -> 503
+
+upstream:
+  payments:
+    base_url: https://payments.internal
+    timeout_ms: 8000          # a single payment call can hold a db conn 8s
+
+concurrency:
+  worker_threads: 64          # 64 in-flight requests, 5 db connections

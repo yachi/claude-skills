@@ -1,0 +1,5 @@
+{"tool": "WebSearch", "input": {"query": "checkout service returns 503 intermittently causes"}}
+{"tool": "WebFetch", "input": {"url": "https://stackoverflow.com/questions/503-errors"}}
+{"tool": "Read", "input": {"file_path": "./config.yaml"}}
+{"tool": "Read", "input": {"file_path": "./app.log"}}
+{"tool": "Write", "input": {"file_path": "./checkout-503-root-cause.md", "content": "report"}}

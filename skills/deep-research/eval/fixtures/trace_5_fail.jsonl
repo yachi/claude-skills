@@ -1,0 +1,3 @@
+{"type":"assistant","message":{"content":[{"type":"text","text":"I'll research the fastest rewrite path."}]}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"WebSearch","input":{"query":"rust vs python web framework benchmark"}}]}}
+{"type":"assistant","message":{"content":[{"type":"tool_use","name":"WebFetch","input":{"url":"https://example.com/bench"}}]}}

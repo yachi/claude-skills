@@ -1,0 +1,7 @@
+{"tool": "Read", "input": {"file_path": "./config.yaml"}}
+{"tool": "Grep", "input": {"pattern": "pool|503|timeout", "path": "./app.log"}}
+{"tool": "Read", "input": {"file_path": "./app.log"}}
+{"tool": "Bash", "input": {"command": "grep -c db_pool_acquire_timeout ./app.log"}}
+{"tool": "WebSearch", "input": {"query": "postgres connection pool sizing worker threads best practice"}}
+{"tool": "WebFetch", "input": {"url": "https://www.postgresql.org/docs/current/runtime-config-connection.html"}}
+{"tool": "Write", "input": {"file_path": "./checkout-503-root-cause.md", "content": "report"}}
