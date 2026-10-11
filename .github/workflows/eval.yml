@@ -1,0 +1,35 @@
+name: deep-research evals
+
+# Wire the two committed, exit-coded graders into CI so they stop being
+# hand-run only. selftest_v11.py = graders discriminate; scorecard.py = all 9
+# v1.1.0 behaviors pass on real captured /dr output. Both are pure stdlib.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'skills/deep-research/**'
+      - '.github/workflows/eval.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'skills/deep-research/**'
+      - '.github/workflows/eval.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: '3.12'
+      - name: Grader discrimination self-test
+        run: python3 skills/deep-research/eval/selftest_v11.py
+      - name: Golden regression on real /dr output
+        run: python3 skills/deep-research/eval/golden/scorecard.py

@@ -13,3 +13,11 @@ Build:
 
 ### P2 — GitHub repo settings
 Tiers 1-2 done; only P7 (social preview) remains, low ROI. (See project memory.)
+
+## Repo guardrails
+
+### Eval CI guardrail (landed 2026-10-11)
+The two committed, exit-coded graders ran by hand only — no CI, no pre-commit (surfaced by benchmarking mattpocock's `retro` skill: "a check that exists but sits unwired is the finding"). `.github/workflows/eval.yml` now runs `selftest_v11.py` (graders discriminate) and `golden/scorecard.py` (9/9 on real output) on PRs and pushes to `main` that touch `skills/deep-research/**`. Actions SHA-pinned.
+
+### Retro convention upgrade (open, docs-only)
+Fold the useful lenses from the `retro` benchmark into our retro practice: (1) a check-first routing bias — a mechanical finding defaults to a deterministic check, not prose; (2) a no-op prune step — retire steering lines that change no behavior (our Memory Conventions only add); (3) an environment-surface lens list as a WHERE-to-hunt checklist before routing. Skip "keep CLAUDE.md tiny" wholesale; keep our route-every-finding follow-through.
